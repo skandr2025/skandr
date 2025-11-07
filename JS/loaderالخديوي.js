@@ -1,7 +1,7 @@
 
 (function(){
   // اسم/مسار اللوجو (عدّل هنا أو عيّنه من الصفحة: window.KH_LOADER_LOGO)
-  var LOGO_SRC = (window.KH_LOADER_LOGO || "img/لوجو.png");
+  var LOGO_SRC = (window.KH_LOADER_LOGO || "img/icon2.jpg");
 
   function createOverlay(){
     if (document.getElementById('khLoader')) return;
