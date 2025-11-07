@@ -1,0 +1,46 @@
+[
+  {
+    "id": 1,
+    "name": "كبده اسكندراني مع التوابل والخلطه+شرايح من الليه الضاني 500جرام",
+    "img": "img/WhatsApp Image 2025-11-07 at 04.38.35_fc6c4813.jpg",
+    "price": 200,
+    "catetory": "kabida",
+    "desc": " كبده اسكندراني سريعه التحضير!",
+    
+   
+     
+        
+          
+          "images": [
+            "img/WhatsApp Image 2025-11-07 at 04.38.35_fc6c4813.jpg"
+          ]
+          
+        
+      
+      
+   
+  },  
+  {
+    "id":2,
+    "name": "كبده اسكندراني مع التوابل والخلطه 500جرام",
+    "img": "img/WhatsApp Image 2025-11-07 at 04.38.34_e7e4af78.jpg",
+    "price": 170,
+    "catetory": "kabida",
+    "desc": " كبده اسكندراني سريعه التحضير!",
+    
+   
+     
+        
+          
+          "images": [
+            "img/WhatsApp Image 2025-11-07 at 04.38.34_e7e4af78.jpg"
+          ]
+          
+        
+      
+      
+   
+
+
+  }
+]
