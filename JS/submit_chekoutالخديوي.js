@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", function () {
         })
         .then(data => {
             if (data.result === 'success') {
-                alert("تم إرسال طلبك بنجاح!Toskanini");
+                alert("تم إرسال طلبك بنجاح اسكندر");
                 form.reset();
                 localStorage.removeItem('cart');
                 window.location.href = "index.html";
@@ -76,4 +76,5 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 });
+
 
