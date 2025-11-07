@@ -56,7 +56,7 @@
 
   function buildMessage(o){
     var lines = [];
-    lines.push('Toskaniniتأكيد استلام طلبك من   ✅');
+    lines.push(' تأكيد استلام طلبك من اسكندر  ✅');
     lines.push('رقم الطلب: #' + o.row);
     lines.push('الاسم: ' + (o.Name || '-'));
     lines.push('الهاتف: ' + (o.Phone || '-'));
