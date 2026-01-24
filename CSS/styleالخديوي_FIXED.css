@@ -2330,3 +2330,102 @@ h1{margin-bottom:10px;}
 @media (min-width: 1100px){
   .grid{ grid-template-columns: repeat(4,1fr); }
 }
+
+/* رسالة تحذيرية للدفع */
+.payment-warning {
+    background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+    padding: 20px 0;
+    margin: 20px 0;
+    box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+}
+
+.warning-box {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 15px;
+    padding: 25px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    border: 3px solid #ff4757;
+    animation: pulse-warning 2s infinite;
+}
+
+.warning-icon {
+    font-size: 48px;
+    color: #ff4757;
+    min-width: 60px;
+    text-align: center;
+}
+
+.warning-content h3 {
+    color: #ff4757;
+    font-size: 24px;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.warning-content p {
+    color: #333;
+    font-size: 16px;
+    margin-bottom: 8px;
+    line-height: 1.5;
+}
+
+.warning-content p strong {
+    color: #ff4757;
+    font-weight: bold;
+}
+
+@keyframes pulse-warning {
+    0% {
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1), 0 0 0 0 rgba(255, 71, 87, 0.4);
+    }
+    50% {
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1), 0 0 0 10px rgba(255, 71, 87, 0.1);
+    }
+    100% {
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1), 0 0 0 0 rgba(255, 71, 87, 0);
+    }
+}
+
+/* تصميم متجاوب للموبايل */
+@media (max-width: 768px) {
+    .warning-box {
+        flex-direction: column;
+        text-align: center;
+        padding: 20px;
+    }
+    
+    .warning-icon {
+        font-size: 36px;
+        margin-bottom: 10px;
+    }
+    
+    .warning-content h3 {
+        font-size: 20px;
+    }
+    
+    .warning-content p {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .payment-warning {
+        padding: 15px 0;
+        margin: 15px 0;
+    }
+    
+    .warning-box {
+        padding: 15px;
+    }
+    
+    .warning-content h3 {
+        font-size: 18px;
+    }
+    
+    .warning-content p {
+        font-size: 13px;
+    }
+}
