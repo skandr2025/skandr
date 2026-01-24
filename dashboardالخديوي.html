@@ -218,72 +218,7 @@
     </div>
 
     <!-- ربط السكربتات -->
-    <script>
-        // إعدادات تسجيل الدخول
-        const LOGIN_CREDENTIALS = {
-            username: 'admin',
-            password: 'admin@123@ahmed'
-        };
-
-        // عناصر DOM
-        const loginContainer = document.getElementById('login-container');
-        const dashboardContainer = document.getElementById('dashboard-container');
-        const loginForm = document.getElementById('login-form');
-        const errorMessage = document.getElementById('error-message');
-        const logoutBtn = document.getElementById('logout-btn');
-
-        // التحقق من حالة تسجيل الدخول عند تحميل الصفحة
-        document.addEventListener('DOMContentLoaded', function() {
-            const isLoggedIn = localStorage.getItem('dashboard_logged_in');
-            
-            if (isLoggedIn === 'true') {
-                showDashboard();
-            } else {
-                showLogin();
-            }
-        });
-
-        // معالج تسجيل الدخول
-        loginForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-            
-            if (username === LOGIN_CREDENTIALS.username && password === LOGIN_CREDENTIALS.password) {
-                // تسجيل دخول ناجح
-                localStorage.setItem('dashboard_logged_in', 'true');
-                showDashboard();
-                errorMessage.style.display = 'none';
-            } else {
-                // خطأ في تسجيل الدخول
-                errorMessage.style.display = 'block';
-                document.getElementById('password').value = '';
-            }
-        });
-
-        // معالج تسجيل الخروج
-        logoutBtn.addEventListener('click', function() {
-            localStorage.removeItem('dashboard_logged_in');
-            showLogin();
-        });
-
-        // إظهار شاشة تسجيل الدخول
-        function showLogin() {
-            loginContainer.classList.remove('hidden');
-            dashboardContainer.classList.add('hidden');
-            document.getElementById('username').value = '';
-            document.getElementById('password').value = '';
-            errorMessage.style.display = 'none';
-        }
-
-        // إظهار لوحة التحكم
-        function showDashboard() {
-            loginContainer.classList.add('hidden');
-            dashboardContainer.classList.remove('hidden');
-        }
-    </script>
-    
+    <script src="JS/loginالخديوي.js"></script>
     <script src="JS/dashboardالخديوي.js"></script>
 
     
