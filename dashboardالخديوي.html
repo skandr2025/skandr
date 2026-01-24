@@ -31,13 +31,144 @@
       .order-details p { margin:6px 0; }
       .action-btns { margin-top:10px; display:flex; gap:8px; flex-wrap:wrap; }
       .action-btn { padding:8px 10px; border-radius:6px; border:1px solid #000000; background:#000000; cursor:pointer; }
+      
+      /* تنسيقات شاشة تسجيل الدخول */
+      .login-container {
+        max-width: 400px;
+        margin: 100px auto;
+        background: #fff;
+        padding: 40px;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        text-align: center;
+      }
+      
+      .login-header {
+        margin-bottom: 30px;
+      }
+      
+      .login-header h2 {
+        color: #333;
+        margin-bottom: 10px;
+        font-size: 28px;
+      }
+      
+      .login-header p {
+        color: #666;
+        font-size: 16px;
+      }
+      
+      .login-form {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+      
+      .form-group {
+        text-align: right;
+      }
+      
+      .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        color: #333;
+        font-weight: 600;
+      }
+      
+      .form-group input {
+        width: 100%;
+        padding: 12px 15px;
+        border: 2px solid #e1e5e9;
+        border-radius: 8px;
+        font-size: 16px;
+        transition: border-color 0.3s;
+        box-sizing: border-box;
+      }
+      
+      .form-group input:focus {
+        outline: none;
+        border-color: #5c16ff;
+      }
+      
+      .login-btn {
+        background: #5c16ff;
+        color: white;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+      
+      .login-btn:hover {
+        background: #4a12d9;
+      }
+      
+      .error-message {
+        color: #ff3b30;
+        font-size: 14px;
+        margin-top: 10px;
+        display: none;
+      }
+      
+      .hidden {
+        display: none !important;
+      }
+      
+      .logout-btn {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        background: #ff3b30;
+        color: white;
+        padding: 8px 15px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 14px;
+      }
+      
+      .logout-btn:hover {
+        background: #d70015;
+      }
     </style>
 </head>
 <body>
-  <div class="dashboard-container">
-        <div class="dashboard-header">
-            <h2>لوحة إدارة الطلبات</h2>
-        </div>
+  <!-- شاشة تسجيل الدخول -->
+  <div class="login-container" id="login-container">
+    <div class="login-header">
+      <h2>تسجيل الدخول</h2>
+      <p>أدخل بيانات الدخول للوصول إلى لوحة التحكم</p>
+    </div>
+    
+    <form class="login-form" id="login-form">
+      <div class="form-group">
+        <label for="username">اسم المستخدم:</label>
+        <input type="text" id="username" name="username" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="password">كلمة المرور:</label>
+        <input type="password" id="password" name="password" required>
+      </div>
+      
+      <button type="submit" class="login-btn">دخول</button>
+      
+      <div class="error-message" id="error-message">
+        اسم المستخدم أو كلمة المرور غير صحيحة
+      </div>
+    </form>
+  </div>
+
+  <!-- لوحة التحكم (مخفية في البداية) -->
+  <div class="dashboard-container hidden" id="dashboard-container">
+    <button class="logout-btn" id="logout-btn">تسجيل خروج</button>
+    
+    <div class="dashboard-header">
+      <h2>لوحة إدارة الطلبات</h2>
+    </div>
         
        
         <div class="date-filter-section">
@@ -87,6 +218,72 @@
     </div>
 
     <!-- ربط السكربتات -->
+    <script>
+        // إعدادات تسجيل الدخول
+        const LOGIN_CREDENTIALS = {
+            username: 'admin',
+            password: 'admin@123@ahmed'
+        };
+
+        // عناصر DOM
+        const loginContainer = document.getElementById('login-container');
+        const dashboardContainer = document.getElementById('dashboard-container');
+        const loginForm = document.getElementById('login-form');
+        const errorMessage = document.getElementById('error-message');
+        const logoutBtn = document.getElementById('logout-btn');
+
+        // التحقق من حالة تسجيل الدخول عند تحميل الصفحة
+        document.addEventListener('DOMContentLoaded', function() {
+            const isLoggedIn = localStorage.getItem('dashboard_logged_in');
+            
+            if (isLoggedIn === 'true') {
+                showDashboard();
+            } else {
+                showLogin();
+            }
+        });
+
+        // معالج تسجيل الدخول
+        loginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            if (username === LOGIN_CREDENTIALS.username && password === LOGIN_CREDENTIALS.password) {
+                // تسجيل دخول ناجح
+                localStorage.setItem('dashboard_logged_in', 'true');
+                showDashboard();
+                errorMessage.style.display = 'none';
+            } else {
+                // خطأ في تسجيل الدخول
+                errorMessage.style.display = 'block';
+                document.getElementById('password').value = '';
+            }
+        });
+
+        // معالج تسجيل الخروج
+        logoutBtn.addEventListener('click', function() {
+            localStorage.removeItem('dashboard_logged_in');
+            showLogin();
+        });
+
+        // إظهار شاشة تسجيل الدخول
+        function showLogin() {
+            loginContainer.classList.remove('hidden');
+            dashboardContainer.classList.add('hidden');
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+            errorMessage.style.display = 'none';
+        }
+
+        // إظهار لوحة التحكم
+        function showDashboard() {
+            loginContainer.classList.add('hidden');
+            dashboardContainer.classList.remove('hidden');
+        }
+    </script>
+    
     <script src="JS/dashboardالخديوي.js"></script>
 
     
