@@ -42,5 +42,51 @@
    
 
 
+  },  
+  {
+    "id":3,
+    "name": "مشكل سكندر (750)جرام صافي",
+    "img": "img/WhatsApp Image 2026-01-27 at 7.14.12 PM.jpeg",
+    "price": 235,
+    "catetory": "kabida",
+    "desc": " كبده اسكندراني سريعه التحضير!",
+    
+   
+     
+        
+          
+          "images": [
+            "img/WhatsApp Image 2026-01-27 at 7.14.12 PM.jpeg"
+          ]
+          
+        
+      
+      
+   
+
+
+  },  
+  {
+    "id":4,
+    "name": "مشكل سكندر مع بالليه (750)جرام صافي",
+    "img": "img/WhatsApp Image 2026-01-28 at 1.14.45 PM.jpeg",
+    "price": 250,
+    "catetory": "kabida",
+    "desc": " كبده اسكندراني سريعه التحضير!",
+    
+   
+     
+        
+          
+          "images": [
+            "img/WhatsApp Image 2026-01-28 at 1.14.45 PM.jpeg"
+          ]
+          
+        
+      
+      
+   
+
+
   }
 ]
