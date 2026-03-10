@@ -92,7 +92,7 @@
   {
     "id":5,
     "name": "كفته سكندر 500 جرام ",
-    "img": "img/كفته.jpeg",
+    "img": "img/كفته.jpg",
     "price": 145,
     "catetory": "kabida",
     "desc": " كبده اسكندراني سريعه التحضير!",
@@ -102,7 +102,7 @@
         
           
           "images": [
-            "img/WhatsApp Image 2026-01-28 at 1.14.45 PM.jpeg"
+            "img/كفته.jpg"
           ]
           
         
@@ -115,7 +115,7 @@
   {
     "id":6,
     "name": "سجق سكندر 500 جرام ",
-    "img": "img/سجق.jpeg",
+    "img": "img/سجق.jpg",
     "price": 145,
     "catetory": "kabida",
     "desc": " كبده اسكندراني سريعه التحضير!",
@@ -125,7 +125,7 @@
         
           
           "images": [
-            "img/WhatsApp Image 2026-01-28 at 1.14.45 PM.jpeg"
+            "img/سجق.jpg"
           ]
           
         
