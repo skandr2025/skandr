@@ -89,4 +89,50 @@
 
 
   }
-]
+],  
+  {
+    "id":5,
+    "name": "كفته سكندر 500 جرام ",
+    "img": "img/كفته.jpeg",
+    "price": 145,
+    "catetory": "kabida",
+    "desc": " كبده اسكندراني سريعه التحضير!",
+    
+   
+     
+        
+          
+          "images": [
+            "img/WhatsApp Image 2026-01-28 at 1.14.45 PM.jpeg"
+          ]
+          
+        
+      
+      
+   
+
+
+  },  
+  {
+    "id":6,
+    "name": "سجق سكندر 500 جرام ",
+    "img": "img/سجق.jpeg",
+    "price": 145,
+    "catetory": "kabida",
+    "desc": " كبده اسكندراني سريعه التحضير!",
+    
+   
+     
+        
+          
+          "images": [
+            "img/WhatsApp Image 2026-01-28 at 1.14.45 PM.jpeg"
+          ]
+          
+        
+      
+      
+   
+
+
+  }
