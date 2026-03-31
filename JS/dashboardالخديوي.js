@@ -6,6 +6,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const filterDateBtn = document.getElementById('filter-date-btn');
     const shiftSearchInput = document.getElementById('shift-search-input');
     const searchShiftBtn = document.getElementById('search-shift-btn');
+    const customerSearchInput = document.getElementById('customer-search-input');
+    const orderNumberSearchInput = document.getElementById('order-number-search-input');
+    const areaFilterSelect = document.getElementById('area-filter-select');
+    const customerDateInput = document.getElementById('customer-date-input');
+    const searchCustomerAreaBtn = document.getElementById('search-customer-area-btn');
+    const clearCustomerAreaBtn = document.getElementById('clear-customer-area-btn');
     const dailySalesBtn = document.getElementById('daily-sales-report-btn');
     const dailyInventoryBtn = document.getElementById('daily-inventory-report-btn');
     const endShiftBtn = document.getElementById('end-shift-btn');
@@ -21,22 +27,201 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // جلب الأوامر ورقم الوردية عند التحميل
     fetchAllOrders();
-    fetchCurrentShiftNumber();
-    setInterval(fetchAllOrders, 15000); // تحديث كل 15 ثانية
+    if (currentShiftNumberElement) fetchCurrentShiftNumber();
+    setInterval(fetchAllOrders, 15000);
 
-    filterDateBtn.addEventListener('click', () => {
-        const startDate = startDateInput.value ? new Date(startDateInput.value) : null;
-        const endDate = endDateInput.value ? new Date(endDateInput.value) : null;
+    if (filterDateBtn) filterDateBtn.addEventListener('click', () => {
+        const startDate = startDateInput ? new Date(startDateInput.value) : null;
+        const endDate = endDateInput ? new Date(endDateInput.value) : null;
         displayFilteredOrdersByDate(startDate, endDate);
     });
 
-    searchShiftBtn.addEventListener('click', () => {
-        const shiftId = shiftSearchInput.value.trim();
+    if (searchShiftBtn) searchShiftBtn.addEventListener('click', () => {
+        const shiftId = shiftSearchInput ? shiftSearchInput.value.trim() : '';
         if (shiftId) {
             displayFilteredOrdersByShift(shiftId);
         } else {
             alert('يرجى إدخال رقم الوردية للبحث.');
         }
+    });
+
+    let currentFilteredOrders = [];
+
+    function applyCustomerAreaFilter() {
+        const customerQuery = (customerSearchInput.value || '').trim().toLowerCase();
+        const orderNumQuery = (orderNumberSearchInput.value || '').trim();
+        const selectedArea = areaFilterSelect.value;
+        const selectedDate = customerDateInput ? customerDateInput.value : '';
+
+        let filtered = allOrders;
+
+        if (customerQuery) {
+            filtered = filtered.filter(order => {
+                const name = (order.Name || order.name || order.CustomerName || order.customer_name || '').toString().toLowerCase();
+                const phone = (order.Phone || order.phone || order.Mobile || order.mobile || order.Tel || order.tel || '').toString().toLowerCase();
+                return name.includes(customerQuery) || phone.includes(customerQuery);
+            });
+        }
+
+        if (orderNumQuery) {
+            filtered = filtered.filter(order => String(order.row ? order.row - 1 : '') === orderNumQuery);
+        }
+
+        if (selectedArea) {
+            filtered = filtered.filter(order => (order.Area || '').trim() === selectedArea.trim());
+        }
+
+        if (selectedDate) {
+            filtered = filtered.filter(order => {
+                if (!order.Date) return false;
+                const orderDate = new Date(order.Date);
+                const orderStr = `${orderDate.getFullYear()}-${String(orderDate.getMonth()+1).padStart(2,'0')}-${String(orderDate.getDate()).padStart(2,'0')}`;
+                return orderStr === selectedDate;
+            });
+        }
+
+        const activeFilter = document.querySelector('.filter-btn.active').dataset.status;
+        currentFilteredOrders = filtered;
+        displayOrders(filtered, activeFilter);
+    }
+
+    customerSearchInput.addEventListener('input', applyCustomerAreaFilter);
+    orderNumberSearchInput.addEventListener('input', applyCustomerAreaFilter);
+    areaFilterSelect.addEventListener('change', applyCustomerAreaFilter);
+    if (customerDateInput) customerDateInput.addEventListener('change', applyCustomerAreaFilter);
+
+    searchCustomerAreaBtn && searchCustomerAreaBtn.addEventListener('click', applyCustomerAreaFilter);
+
+    function getExportFileName(ext) {
+        const area = (areaFilterSelect.value || 'كل-المناطق').replace(/\s+/g, '-');
+        const date = (customerDateInput && customerDateInput.value) || new Date().toISOString().slice(0,10);
+        return `طلبات_${area}_${date}.${ext}`;
+    }
+
+    function getOrdersForExport() {
+        const orders = currentFilteredOrders.length ? currentFilteredOrders : allOrders;
+        return orders;
+    }
+
+    document.getElementById('export-excel-btn').addEventListener('click', () => {
+        const orders = getOrdersForExport();
+        if (!orders.length) { alert('لا توجد طلبات للتصدير'); return; }
+
+        const rows = [['رقم الطلب','اسم العميل','رقم الهاتف','العنوان','المنطقة','الحالة','تاريخ الطلب','رسوم الخدمة','الإجمالي','المنتجات']];
+        orders.forEach(order => {
+            let products = [];
+            try { products = JSON.parse(order.Products || '[]'); } catch(e) {}
+            const productsText = products.map(p => `${p.name} (${p.quantity})`).join(' | ');
+            rows.push([
+                order.row - 1,
+                order.Name || '',
+                order.Phone || '',
+                order.Address || '',
+                order.Area || '',
+                order.Status || '',
+                order.Date ? new Date(order.Date).toLocaleDateString('ar-EG') : '',
+                parseFloat(order.Service || 0).toFixed(2),
+                parseFloat(order.Totalprice || 0).toFixed(2),
+                productsText
+            ]);
+        });
+
+        const ws = XLSX.utils.aoa_to_sheet(rows);
+        ws['!cols'] = rows[0].map(() => ({ wch: 20 }));
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'الطلبات');
+        XLSX.writeFile(wb, getExportFileName('xlsx'));
+    });
+
+    document.getElementById('export-pdf-btn').addEventListener('click', () => {
+        const orders = getOrdersForExport();
+        if (!orders.length) { alert('لا توجد طلبات للتصدير'); return; }
+
+        const area = areaFilterSelect.value || 'كل المناطق';
+        const date = (customerDateInput && customerDateInput.value) || new Date().toISOString().slice(0,10);
+
+        let cardsHtml = '';
+        orders.forEach(order => {
+            let products = [];
+            try { products = JSON.parse(order.Products || '[]'); } catch(e) {}
+
+            const productsRows = products.map(p => `
+                <tr>
+                    <td>${p.name || ''}</td>
+                    <td>${p.selectedColorLabel || p.color || '-'}</td>
+                    <td>${p.selectedSizeLabel || p.size || '-'}</td>
+                    <td>${p.code || '-'}</td>
+                    <td>${p.code_new || '-'}</td>
+                    <td>${p.quantity || 0}</td>
+                    <td>${p.price || 0}</td>
+                </tr>`).join('');
+
+            cardsHtml += `
+            <div class="order-card">
+                <div class="order-header">
+                    <span class="order-num">الطلب #${order.row - 1}</span>
+                    <span class="order-status">${order.Status || ''}</span>
+                </div>
+                <div class="order-info">
+                    <div class="info-row"><span class="label">العميل:</span> ${order.Name || '-'}</div>
+                    <div class="info-row"><span class="label">رقم الهاتف:</span> ${order.Phone || '-'}</div>
+                    <div class="info-row"><span class="label">العنوان:</span> ${order.Address || '-'}</div>
+                    <div class="info-row"><span class="label">المنطقة:</span> ${order.Area || '-'}</div>
+                    <div class="info-row"><span class="label">ملاحظات:</span> ${order.Notes || order.notes || 'لا يوجد'}</div>
+                    <div class="info-row"><span class="label">تاريخ الطلب:</span> ${order.Date ? new Date(order.Date).toLocaleString('ar-EG') : '-'}</div>
+                    <div class="info-row"><span class="label">رسوم الخدمة:</span> LE ${parseFloat(order.Service || 0).toFixed(2)}</div>
+                    <div class="info-row"><span class="label">الإجمالي:</span> LE ${parseFloat(order.Totalprice || 0).toFixed(2)}</div>
+                    ${order.Shift_Number ? `<div class="info-row"><span class="label">رقم الوردية:</span> ${order.Shift_Number}</div>` : ''}
+                </div>
+                <h4>محتويات الطلب:</h4>
+                <table class="products-table">
+                    <thead><tr>
+                        <th>المنتج</th><th>اللون</th><th>المقاس</th><th>الكود</th><th>الكود الجديد</th><th>الكمية</th><th>السعر</th>
+                    </tr></thead>
+                    <tbody>${productsRows}</tbody>
+                </table>
+            </div>`;
+        });
+
+        const win = window.open('', '_blank');
+        win.document.write(`<!DOCTYPE html><html lang="ar" dir="rtl"><head>
+            <meta charset="UTF-8">
+            <title>طلبات ${area} - ${date}</title>
+            <style>
+                body { font-family: Arial, sans-serif; direction: rtl; padding: 20px; font-size: 13px; background: #f5f6fa; }
+                h2 { text-align: center; margin-bottom: 4px; }
+                .summary { text-align: center; color: #555; margin-bottom: 20px; }
+                .order-card { background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 16px; margin-bottom: 20px; page-break-inside: avoid; }
+                .order-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 2px solid #5c16ff; padding-bottom: 8px; }
+                .order-num { font-size: 16px; font-weight: bold; color: #5c16ff; }
+                .order-status { background: #fffae6; color: #b77a00; padding: 4px 10px; border-radius: 12px; font-weight: bold; }
+                .order-info { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 16px; margin-bottom: 12px; }
+                .info-row { font-size: 13px; }
+                .label { font-weight: bold; color: #333; }
+                h4 { margin: 10px 0 6px; color: #444; }
+                .products-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+                .products-table th { background: #5c16ff; color: #fff; padding: 6px; }
+                .products-table td { border: 1px solid #ddd; padding: 6px; text-align: center; }
+                .products-table tr:nth-child(even) { background: #f9f9f9; }
+                @media print { button { display: none; } body { background: #fff; } }
+            </style>
+        </head><body>
+            <h2>طلبات - ${area}</h2>
+            <p class="summary">التاريخ: ${date} | إجمالي الطلبات: ${orders.length}</p>
+            ${cardsHtml}
+            <br>
+            <button onclick="window.print()" style="padding:10px 20px;background:#5c16ff;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:14px;">طباعة / حفظ PDF</button>
+        </body></html>`);
+        win.document.close();
+    });
+
+    clearCustomerAreaBtn.addEventListener('click', () => {
+        customerSearchInput.value = '';
+        orderNumberSearchInput.value = '';
+        areaFilterSelect.value = '';
+        if (customerDateInput) customerDateInput.value = '';
+        const activeFilter = document.querySelector('.filter-btn.active').dataset.status;
+        displayOrders(allOrders, activeFilter);
     });
 
     filterButtons.forEach(button => {
@@ -47,10 +232,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    dailySalesBtn.addEventListener('click', () => {
-        const startDate = startDateInput.value ? new Date(startDateInput.value) : null;
-        const endDate = endDateInput.value ? new Date(endDateInput.value) : null;
-        const shiftId = shiftSearchInput.value.trim();
+    dailySalesBtn && dailySalesBtn.addEventListener('click', () => {
+        const startDate = startDateInput ? (startDateInput.value ? new Date(startDateInput.value) : null) : null;
+        const endDate = endDateInput ? (endDateInput.value ? new Date(endDateInput.value) : null) : null;
+        const shiftId = shiftSearchInput ? shiftSearchInput.value.trim() : '';
 
         if ((startDate && endDate) || shiftId) {
             generateSalesReport(startDate, endDate, shiftId);
@@ -59,10 +244,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    dailyInventoryBtn.addEventListener('click', () => {
-        const startDate = startDateInput.value ? new Date(startDateInput.value) : null;
-        const endDate = endDateInput.value ? new Date(endDateInput.value) : null;
-        const shiftId = shiftSearchInput.value.trim();
+    dailyInventoryBtn && dailyInventoryBtn.addEventListener('click', () => {
+        const startDate = startDateInput ? (startDateInput.value ? new Date(startDateInput.value) : null) : null;
+        const endDate = endDateInput ? (endDateInput.value ? new Date(endDateInput.value) : null) : null;
+        const shiftId = shiftSearchInput ? shiftSearchInput.value.trim() : '';
 
         if ((startDate && endDate) || shiftId) {
             generateInventoryReport(startDate, endDate, shiftId);
@@ -71,8 +256,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    endShiftBtn.addEventListener('click', () => {
-        const selectedDate = startDateInput.value;
+    endShiftBtn && endShiftBtn.addEventListener('click', () => {
+        const selectedDate = startDateInput ? startDateInput.value : '';
         if (!selectedDate) {
             alert('يرجى إدخال تاريخ الوردية لإنهاءها.');
             return;
@@ -85,9 +270,14 @@ document.addEventListener('DOMContentLoaded', () => {
     async function fetchAllOrders() {
         try {
             const response = await fetch(SCRIPT_URL);
-            if (!response.ok) throw new Error('Network response was not ok');
-            allOrders = await response.json();
-
+            if (!response.ok) throw new Error('Network response was not ok - status: ' + response.status);
+            const data = await response.json();
+            if (!Array.isArray(data)) {
+                orderListContainer.innerHTML = `<p style="color:red">البيانات الواردة غير صحيحة: ${JSON.stringify(data).slice(0,200)}</p>`;
+                return;
+            }
+            allOrders = data;
+            window.allOrders = allOrders;
             // تحديث العدادات
             const newOrdersCount = allOrders.filter(order => order.Status === 'جديد').length;
             if (newOrdersCountElement) newOrdersCountElement.textContent = newOrdersCount;
@@ -98,11 +288,22 @@ document.addEventListener('DOMContentLoaded', () => {
             const receivedCount = allOrders.filter(order => order.Status === 'تم الاستلام').length;
             if (receivedCountElement) receivedCountElement.textContent = receivedCount;
 
-            const activeFilter = document.querySelector('.filter-btn.active').dataset.status;
-            displayOrders(allOrders, activeFilter);
+            populateAreaFilter(allOrders);
+
+            // لو في فلتر عميل/منطقة/تاريخ شغال، طبقه تاني بدل ما يمسحه
+            const customerQuery = (customerSearchInput.value || '').trim();
+            const selectedArea = areaFilterSelect.value;
+            const selectedDate = customerDateInput ? customerDateInput.value : '';
+            const orderNumQuery = (orderNumberSearchInput.value || '').trim();
+
+            if (customerQuery || selectedArea || selectedDate || orderNumQuery) {
+                applyCustomerAreaFilter();
+            } else {
+                const activeFilter = document.querySelector('.filter-btn.active').dataset.status;
+                displayOrders(allOrders, activeFilter);
+            }
         } catch (error) {
-            console.error('Error fetching orders:', error);
-            orderListContainer.innerHTML = '<p>حدث خطأ في جلب الطلبات. يرجى المحاولة مرة أخرى.</p>';
+            orderListContainer.innerHTML = `<p style="color:red;padding:20px;background:#fff;border-radius:8px;">⚠️ خطأ في جلب البيانات: ${error.message}</p>`;
         }
     }
 
@@ -118,6 +319,20 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (error) {
             console.error('Error fetching current shift number:', error);
         }
+    }
+
+    function populateAreaFilter(orders) {
+        if (!areaFilterSelect) return;
+        const currentVal = areaFilterSelect.value;
+        const areas = [...new Set(orders.map(o => o.Area).filter(a => a && a.trim()))].sort();
+        areaFilterSelect.innerHTML = '<option value="">-- كل المناطق --</option>';
+        areas.forEach(area => {
+            const opt = document.createElement('option');
+            opt.value = area;
+            opt.textContent = area;
+            if (area === currentVal) opt.selected = true;
+            areaFilterSelect.appendChild(opt);
+        });
     }
 
     function displayFilteredOrdersByDate(startDate, endDate) {
@@ -218,10 +433,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     <ul>${productsHtml}</ul>
                 </div>
                 <div class="action-btns">
-                    <button class="action-btn prepare-btn" data-action="قيد التحضير">قيد التحضير</button>
-                    <button class="action-btn received-btn" data-action="تم الاستلام">تم الاستلام</button>
-                    <button class="action-btn print-btn" data-action="print">طباعة الفاتورة</button>
-                    <button class="action-btn archive-btn" data-action="مؤرشف">أرشفة</button>
+                    ${order.Status === 'تم الاستلام'
+                        ? `<span style="color:#078a36;font-weight:600;padding:8px;">✅ تم الاستلام</span>
+                           <button class="action-btn print-btn" data-action="print">طباعة الفاتورة</button>
+                           <button class="action-btn" data-action="edit-status" style="background:#f59e0b;border-color:#f59e0b;color:#fff;">تعديل الحالة</button>`
+                        : `<button class="action-btn prepare-btn" data-action="قيد التحضير">قيد التحضير</button>
+                           <button class="action-btn received-btn" data-action="تم الاستلام">تم الاستلام</button>
+                           <button class="action-btn print-btn" data-action="print">طباعة الفاتورة</button>
+                           <button class="action-btn archive-btn" data-action="مؤرشف">أرشفة</button>`
+                    }
                 </div>
             `;
             orderListContainer.appendChild(orderCard);
@@ -370,6 +590,46 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if (action === 'print') {
                     printInvoice(orderCard);
+                } else if (action === 'edit-status') {
+                    const select = document.createElement('select');
+                    select.style.cssText = 'padding:6px 10px;border-radius:6px;border:1px solid #ddd;font-size:13px;margin-right:8px;';
+                    ['جديد','قيد التحضير','مؤرشف'].forEach(s => {
+                        const opt = document.createElement('option');
+                        opt.value = s; opt.textContent = s;
+                        select.appendChild(opt);
+                    });
+                    const confirmBtn = document.createElement('button');
+                    confirmBtn.textContent = 'تأكيد';
+                    confirmBtn.style.cssText = 'padding:6px 14px;background:#5c16ff;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:13px;';
+                    const cancelBtn = document.createElement('button');
+                    cancelBtn.textContent = 'إلغاء';
+                    cancelBtn.style.cssText = 'padding:6px 14px;background:#888;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:13px;margin-right:6px;';
+
+                    const actionBtns = orderCard.querySelector('.action-btns');
+                    actionBtns.innerHTML = '';
+                    actionBtns.appendChild(select);
+                    actionBtns.appendChild(confirmBtn);
+                    actionBtns.appendChild(cancelBtn);
+
+                    confirmBtn.addEventListener('click', async () => {
+                        const newStatus = select.value;
+                        const result = await updateOrderStatus(row, newStatus);
+                        if (result.result === 'success') {
+                            const o = allOrders.find(x => x.row == row);
+                            if (o) o.Status = newStatus;
+                            if (newOrdersCountElement) newOrdersCountElement.textContent = allOrders.filter(o=>o.Status==='جديد').length;
+                            if (inProgressCountElement) inProgressCountElement.textContent = allOrders.filter(o=>o.Status==='قيد التحضير').length;
+                            if (receivedCountElement) receivedCountElement.textContent = allOrders.filter(o=>o.Status==='تم الاستلام').length;
+                            const activeFilter = document.querySelector('.filter-btn.active').dataset.status;
+                            displayOrders(allOrders, activeFilter);
+                        } else {
+                            alert('فشل تحديث الحالة.');
+                        }
+                    });
+                    cancelBtn.addEventListener('click', () => {
+                        const activeFilter = document.querySelector('.filter-btn.active').dataset.status;
+                        displayOrders(allOrders, activeFilter);
+                    });
                 } else {
                     const result = await updateOrderStatus(row, action);
                     if (result.result === 'success') {
