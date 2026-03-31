@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const receivedCountElement = document.getElementById('received-count');
 
     // ضع هنا رابط Script الخاص بك:
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwkjtVUxJxrSCMZecAXjy_RFKEWCnol_twlgxVmlcnevo6FizBjAUJQ3KAnKQDgulBK/exec';
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyfyDuJQeTVaS1pEJQOl1RA6Yy6CvPodSoVWtP8B0nNnI6h00MMKZpVSmx8yRqrSg9r/exec';
 
     let allOrders = [];
 
