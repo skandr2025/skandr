@@ -1,5 +1,5 @@
 (function () {
-  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwkjtVUxJxrSCMZecAXjy_RFKEWCnol_twlgxVmlcnevo6FizBjAUJQ3KAnKQDgulBK/exec';
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyfyDuJQeTVaS1pEJQOl1RA6Yy6CvPodSoVWtP8B0nNnI6h00MMKZpVSmx8yRqrSg9r/exec';
 
   // ===== التبويبات =====
   document.querySelectorAll('.main-tab-btn').forEach(btn => {
