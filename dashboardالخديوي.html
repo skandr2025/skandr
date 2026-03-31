@@ -130,9 +130,84 @@
         font-size: 14px;
       }
       
-      .logout-btn:hover {
-        background: #d70015;
-      }
+      /* تنسيقات التبويبات */
+      .main-tabs { display:flex; gap:0; margin-bottom:20px; border-bottom:2px solid #e0e0e0; }
+      .main-tab-btn { padding:12px 28px; border:none; background:none; font-size:15px; font-weight:600; cursor:pointer; color:#888; border-bottom:3px solid transparent; margin-bottom:-2px; transition:all 0.2s; }
+      .main-tab-btn.active { color:#5c16ff; border-bottom:3px solid #5c16ff; }
+      .main-tab-content { display:none; }
+      .main-tab-content.active { display:block; }
+
+      /* ===== تنسيقات التقارير ===== */
+      .reports-page { padding:10px 0; }
+      .report-controls { background:linear-gradient(135deg,#f8f8ff,#f0ebff); border:1px solid #e0d6ff; border-radius:12px; padding:18px; margin-bottom:24px; display:flex; gap:14px; flex-wrap:wrap; align-items:flex-end; }
+      .report-controls label { font-size:12px; font-weight:700; color:#5c16ff; display:block; margin-bottom:5px; }
+      .report-controls input, .report-controls select { padding:9px 12px; border:1.5px solid #ddd; border-radius:8px; font-size:13px; background:#fff; transition:border-color .2s; }
+      .report-controls input:focus, .report-controls select:focus { outline:none; border-color:#5c16ff; }
+      .run-report-btn { padding:10px 22px; background:#5c16ff; color:#fff; border:none; border-radius:8px; font-size:14px; font-weight:700; cursor:pointer; transition:all .2s; box-shadow:0 3px 10px rgba(92,22,255,.3); }
+      .run-report-btn:hover { background:#4a12d9; transform:translateY(-1px); }
+
+      .stats-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(155px,1fr)); gap:14px; margin-bottom:24px; }
+      .stat-card { background:#fff; border:1px solid #eee; border-radius:12px; padding:18px 14px; text-align:center; box-shadow:0 3px 12px rgba(0,0,0,.06); transition:transform .2s; position:relative; overflow:hidden; }
+      .stat-card::before { content:''; position:absolute; top:0; right:0; left:0; height:4px; background:var(--card-color,#5c16ff); }
+      .stat-card:hover { transform:translateY(-3px); }
+      .stat-card .stat-icon { font-size:26px; margin-bottom:8px; }
+      .stat-card .stat-value { font-size:20px; font-weight:800; color:var(--card-color,#5c16ff); line-height:1.2; }
+      .stat-card .stat-label { font-size:11px; color:#999; margin-top:5px; font-weight:600; }
+
+      .report-section { background:#fff; border:1px solid #eee; border-radius:12px; padding:20px; margin-bottom:18px; box-shadow:0 2px 8px rgba(0,0,0,.04); }
+      .report-section h3 { margin:0 0 16px; font-size:15px; color:#222; border-right:4px solid #5c16ff; padding-right:12px; }
+
+      .rpt-bar-row { display:flex; align-items:center; gap:10px; font-size:13px; margin-bottom:10px; }
+      .rpt-bar-label { min-width:130px; text-align:right; color:#444; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+      .rpt-bar-track { flex:1; background:#f0f0f0; border-radius:20px; height:24px; overflow:hidden; }
+      .rpt-bar-fill { height:100%; border-radius:20px; transition:width .7s cubic-bezier(.4,0,.2,1); }
+      .rpt-bar-val { min-width:110px; color:#333; font-weight:700; font-size:12px; }
+      .rpt-bar-sub { color:#999; font-weight:400; font-size:11px; margin-right:4px; }
+      .rpt-no-data { text-align:center; color:#bbb; padding:30px; font-size:14px; }
+
+      .rpt-table { width:100%; border-collapse:collapse; font-size:13px; }
+      .rpt-table th { background:linear-gradient(135deg,#5c16ff,#7c3aed); color:#fff; padding:10px 14px; text-align:right; font-weight:600; }
+      .rpt-table td { border-bottom:1px solid #f0f0f0; padding:10px 14px; }
+      .rpt-row-alt td { background:#fafafa; }
+      .rpt-table tr:hover td { background:#f0ebff; }
+      .rpt-total-row td { background:#f0ebff!important; font-weight:700; border-top:2px solid #5c16ff; }
+      .rpt-mini-bar { height:4px; background:#f0f0f0; border-radius:4px; margin-top:4px; overflow:hidden; }
+
+      .rpt-badge { padding:3px 10px; border-radius:20px; font-size:11px; font-weight:700; display:inline-block; }
+      .rpt-badge-blue   { background:#eff6ff; color:#2563eb; }
+      .rpt-badge-green  { background:#f0fdf4; color:#16a34a; }
+      .rpt-badge-yellow { background:#fffbeb; color:#d97706; }
+      .rpt-badge-gray   { background:#f3f4f6; color:#6b7280; }
+      .rpt-detail-btn { padding:5px 12px; background:#5c16ff; color:#fff; border:none; border-radius:6px; cursor:pointer; font-size:12px; font-weight:600; transition:background .2s; }
+      .rpt-detail-btn:hover { background:#4a12d9; }
+
+      /* ===== modal العميل ===== */
+      .customer-modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,.55); z-index:9999; overflow-y:auto; padding:20px; }
+      .customer-modal-overlay.open { display:flex; align-items:flex-start; justify-content:center; }
+      .customer-modal { background:#fff; border-radius:16px; width:100%; max-width:860px; padding:28px; position:relative; margin:auto; }
+      .customer-modal-header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:20px; border-bottom:2px solid #f0ebff; padding-bottom:16px; }
+      .customer-modal-header h2 { margin:0; font-size:18px; color:#222; }
+      .customer-modal-header p { margin:4px 0 0; color:#888; font-size:13px; }
+      .customer-modal-close { background:#f3f4f6; border:none; border-radius:8px; width:36px; height:36px; font-size:18px; cursor:pointer; color:#555; flex-shrink:0; }
+      .customer-modal-close:hover { background:#fee2e2; color:#ef4444; }
+      .customer-modal-stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr)); gap:12px; margin-bottom:24px; }
+      .cms-card { background:#f8f8ff; border:1px solid #e0d6ff; border-radius:10px; padding:14px; text-align:center; }
+      .cms-card .cv { font-size:20px; font-weight:800; color:#5c16ff; }
+      .cms-card .cl { font-size:11px; color:#999; margin-top:4px; font-weight:600; }
+      .order-detail-card { border:1px solid #eee; border-radius:12px; padding:18px; margin-bottom:16px; background:#fafafa; }
+      .order-detail-card-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; padding-bottom:10px; border-bottom:1px solid #eee; }
+      .order-detail-card-header h4 { margin:0; color:#5c16ff; font-size:15px; }
+      .order-detail-info { display:grid; grid-template-columns:1fr 1fr; gap:6px 20px; margin-bottom:14px; font-size:13px; }
+      .order-detail-info span { color:#888; }
+      .order-detail-info strong { color:#222; }
+      .order-products-table { width:100%; border-collapse:collapse; font-size:12px; margin-bottom:12px; }
+      .order-products-table th { background:#5c16ff; color:#fff; padding:7px 10px; text-align:right; }
+      .order-products-table td { border:1px solid #eee; padding:7px 10px; }
+      .order-products-table tr:nth-child(even) td { background:#f5f3ff; }
+      .order-totals { display:flex; gap:12px; flex-wrap:wrap; justify-content:flex-end; }
+      .order-total-item { background:#fff; border:1px solid #eee; border-radius:8px; padding:8px 16px; text-align:center; font-size:12px; }
+      .order-total-item .tv { font-size:16px; font-weight:800; }
+      .order-total-item .tl { color:#999; font-size:11px; margin-top:2px; }
     </style>
 </head>
 <body>
@@ -169,6 +244,15 @@
     <div class="dashboard-header">
       <h2>لوحة إدارة الطلبات</h2>
     </div>
+
+    <!-- التبويبات الرئيسية -->
+    <div class="main-tabs">
+      <button class="main-tab-btn active" data-tab="orders-tab">الطلبات</button>
+      <button class="main-tab-btn" data-tab="reports-tab">التقارير</button>
+    </div>
+
+    <!-- تبويب الطلبات -->
+    <div class="main-tab-content active" id="orders-tab">
         
        
         <div class="date-filter-section">
@@ -184,6 +268,19 @@
         <div class="search-section">
             <input type="text" id="shift-search-input" placeholder="ابحث برقم الوردية (Shift ID)">
             <button class="search-btn" id="search-shift-btn">بحث</button>
+        </div>
+
+        <div class="search-section" style="gap:8px; flex-wrap:wrap; align-items:center;">
+            <input type="text" id="customer-search-input" placeholder="ابحث باسم العميل أو رقم الهاتف" style="min-width:240px;">
+            <input type="number" id="order-number-search-input" placeholder="رقم الطلب" style="padding:8px 10px; border:1px solid #ddd; border-radius:6px; width:120px;">
+            <select id="area-filter-select" style="padding:8px 10px; border:1px solid #ddd; border-radius:6px; min-width:160px;">
+                <option value="">-- كل المناطق --</option>
+            </select>
+            <label style="margin:0 4px;">التاريخ:</label>
+            <input type="date" id="customer-date-input">
+            <button class="search-btn" id="clear-customer-area-btn" style="background:#888;">مسح</button>
+            <button class="search-btn" id="export-pdf-btn" style="background:#e74c3c;">تصدير PDF</button>
+            <button class="search-btn" id="export-excel-btn" style="background:#27ae60;">تصدير Excel</button>
         </div>
 
         <div class="order-filters">
@@ -215,11 +312,121 @@
         
         <div class="order-list" id="order-list">
         </div>
+    </div><!-- end orders-tab -->
+
+    <!-- تبويب التقارير -->
+    <div class="main-tab-content" id="reports-tab">
+      <div class="reports-page">
+
+        <!-- فلاتر التقارير -->
+        <div class="report-controls">
+          <div>
+            <label>من تاريخ</label>
+            <input type="date" id="report-start-date">
+          </div>
+          <div>
+            <label>إلى تاريخ</label>
+            <input type="date" id="report-end-date">
+          </div>
+          <div>
+            <label>المنطقة</label>
+            <select id="report-area-select">
+              <option value="">كل المناطق</option>
+            </select>
+          </div>
+          <div>
+            <label>الحالة</label>
+            <select id="report-status-select">
+              <option value="">كل الحالات</option>
+              <option value="جديد">جديد</option>
+              <option value="قيد التحضير">قيد التحضير</option>
+              <option value="تم الاستلام">تم الاستلام</option>
+              <option value="مؤرشف">مؤرشف</option>
+            </select>
+          </div>
+          <button class="run-report-btn" id="run-report-btn">عرض التقرير</button>
+          <button class="run-report-btn" id="export-report-pdf-btn" style="background:#e74c3c;">تصدير PDF</button>
+          <button class="run-report-btn" id="export-report-excel-btn" style="background:#27ae60;">تصدير Excel</button>
+        </div>
+
+        <!-- الإحصائيات السريعة -->
+        <div class="stats-grid" id="report-stats-grid">
+          <div class="stat-card" style="--card-color:#5c16ff"><div class="stat-icon">📦</div><div class="stat-value" id="stat-total-orders">0</div><div class="stat-label">إجمالي الطلبات</div></div>
+          <div class="stat-card" style="--card-color:#22c55e"><div class="stat-icon">💰</div><div class="stat-value" id="stat-total-revenue">0</div><div class="stat-label">إجمالي الإيرادات (LE)</div></div>
+          <div class="stat-card" style="--card-color:#ef4444"><div class="stat-icon">🚚</div><div class="stat-value" id="stat-total-service">0</div><div class="stat-label">رسوم الشحن (LE)</div></div>
+          <div class="stat-card" style="--card-color:#7c3aed"><div class="stat-icon">📈</div><div class="stat-value" id="stat-net-revenue">0</div><div class="stat-label">صافي الأرباح (LE)</div></div>
+          <div class="stat-card" style="--card-color:#16a34a"><div class="stat-icon">✅</div><div class="stat-value" id="stat-completed">0</div><div class="stat-label">طلبات مكتملة</div></div>
+          <div class="stat-card" style="--card-color:#f59e0b"><div class="stat-icon">🆕</div><div class="stat-value" id="stat-new">0</div><div class="stat-label">طلبات جديدة</div></div>
+          <div class="stat-card" style="--card-color:#3b82f6"><div class="stat-icon">⚙️</div><div class="stat-value" id="stat-inprogress">0</div><div class="stat-label">قيد التحضير</div></div>
+          <div class="stat-card" style="--card-color:#0891b2"><div class="stat-icon">📊</div><div class="stat-value" id="stat-avg-order">0</div><div class="stat-label">متوسط قيمة الطلب (LE)</div></div>
+        </div>
+
+        <!-- المبيعات حسب المنطقة -->
+        <div class="report-section">
+          <h3>🗺️ المبيعات حسب المنطقة (LE)</h3>
+          <div id="report-by-area"></div>
+        </div>
+
+        <!-- المنتجات الأكثر مبيعاً -->
+        <div class="report-section">
+          <h3>🏆 المنتجات الأكثر مبيعاً (كمية)</h3>
+          <div id="report-top-products"></div>
+        </div>
+
+        <!-- توزيع الطلبات حسب الحالة -->
+        <div class="report-section">
+          <h3>📊 توزيع الطلبات حسب الحالة</h3>
+          <div id="report-by-status"></div>
+        </div>
+
+        <!-- المبيعات اليومية -->
+        <div class="report-section">
+          <h3>📅 المبيعات اليومية (تم الاستلام فقط)</h3>
+          <div style="overflow-x:auto;">
+            <table class="rpt-table" id="report-daily-table">
+              <thead><tr><th>التاريخ</th><th>عدد الطلبات</th><th>الإيرادات (LE)</th><th>رسوم الشحن (LE)</th><th>الصافي (LE)</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- العملاء -->
+        <div class="report-section">
+          <h3>� العملاء ومبيعاتهم</h3>
+          <div style="margin-bottom:10px;">
+            <input type="text" id="customer-report-search" placeholder="ابحث باسم العميل أو رقم الهاتف..." style="padding:8px 12px;border:1.5px solid #ddd;border-radius:8px;width:280px;font-size:13px;">
+          </div>
+          <div style="overflow-x:auto;">
+            <table class="rpt-table" id="report-customers-table">
+              <thead><tr><th>العميل</th><th>رقم الهاتف</th><th>عدد الطلبات</th><th>إجمالي المشتريات (LE)</th><th>آخر طلب</th><th></th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </div><!-- end reports-tab -->
+
+    <!-- modal تفاصيل العميل -->
+    <div class="customer-modal-overlay" id="customer-modal-overlay">
+      <div class="customer-modal">
+        <div class="customer-modal-header">
+          <div>
+            <h2 id="cmodal-title">طلبات العميل</h2>
+            <p id="cmodal-subtitle"></p>
+          </div>
+          <button class="customer-modal-close" id="customer-modal-close">✕</button>
+        </div>
+        <div class="customer-modal-stats" id="cmodal-stats"></div>
+        <div id="cmodal-orders"></div>
+      </div>
     </div>
 
     <!-- ربط السكربتات -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script src="JS/loginالخديوي.js"></script>
     <script src="JS/dashboardالخديوي.js"></script>
+    <script src="JS/reportsالخديوي.js"></script>
 
     
    <script src="JS/product_modalالخديوي.js"></script>
