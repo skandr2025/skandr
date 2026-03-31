@@ -14,7 +14,7 @@
 
 (function(){
   // === إعدادات قابلة للتخصيص ===
-  var SCRIPT_URL   = 'https://script.google.com/macros/s/AKfycbwkjtVUxJxrSCMZecAXjy_RFKEWCnol_twlgxVmlcnevo6FizBjAUJQ3KAnKQDgulBK/exec';
+  var SCRIPT_URL   = 'https://script.google.com/macros/s/AKfycbyfyDuJQeTVaS1pEJQOl1RA6Yy6CvPodSoVWtP8B0nNnI6h00MMKZpVSmx8yRqrSg9r/exec';
   var COUNTRY_CODE = '20';           // مصر
   var SHOP_PHONE   = '01127765095';  // ← حط رقم خدمة العملاء
   var DELIVERY_DAYS = 2;             // التسليم بعد كم يوم؟
