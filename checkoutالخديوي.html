@@ -22,7 +22,24 @@
     <link rel="stylesheet" href="CSS/product_modalالخديوي_FIXED.css">
 
     <link rel="stylesheet" href="CSS/loaderالخديوي.css">
-</head>
+    <style>
+        :root { --green: #004f49; --green-mid: #006b63; }
+        body { padding-top: 0 !important; padding-bottom: 80px; }
+        .bottom-nav {
+            display: block;
+            position: fixed; bottom: 0; left: 0; right: 0;
+            background: #fff; border-top: 1px solid #e0eeec;
+            z-index: 1200; padding: 8px 0 calc(8px + env(safe-area-inset-bottom));
+            box-shadow: 0 -4px 20px rgba(0,79,73,0.10);
+        }
+        .bottom-nav-inner { display: flex; justify-content: space-around; align-items: center; }
+        .bottom-nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; text-decoration: none; padding: 4px 12px; min-width: 56px; position: relative; }
+        .bottom-nav-item i { font-size: 20px; color: #aaa; font-family: "Font Awesome 6 Free", "Font Awesome 6 Brands" !important; }
+        .bottom-nav-item span { font-size: 11px; color: #aaa; font-weight: 600; font-family: 'Tajawal', sans-serif; }
+        .bottom-nav-item.active i, .bottom-nav-item.active span { color: var(--green); }
+        .bnav-badge { position: absolute; top: 0; right: 8px; background: var(--green); color: #fff !important; font-size: 10px !important; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+        header { display: none !important; }
+    </style>
 
 <body>
 
@@ -270,32 +287,49 @@
 
 
 
-     <footer id="foo">
-        <div class="container">
-            <div class="big_row">
-                <img class="logo_footer" src="img/icon2.jpg" alt="">
-
-
-                <p>زورو موقعنا على</p>
-
-                <div class="icon_footer">
-                    <a href="https://wa.me/01127765095" target="_blank" rel="noopener noreferrer">
-                           <i class="fa-solid fa-phone"></i></a>
-
-                    <a href="https://www.facebook.com/share/17cbwLgidQ/?mibextid=wwXIfr"><i class="fa-brands fa-facebook-f"></i></a>
-                    <a href="https://www.instagram.com/skandr_2025?igsh=MTc4ZGQ2NW5ycXZpNQ=="><i class="fa-brands fa-instagram"></i></a>
-                    <a href="https://www.tiktok.com/@skandr176?_r=1&_t=ZS-91BnrLbwfyy"><i class="fa-brands fa-tiktok"></i></a>
-
-
-
-                </div>
-            </div>
-
-
-
-
-    
-    </footer>
+    <!-- تواصل معنا -->
+    <div style="padding:20px 16px 30px; max-width:700px; margin:0 auto;">
+      <h3 style="font-size:18px;font-weight:800;color:#004f49;margin-bottom:14px;font-family:'Tajawal',sans-serif;">تواصل معنا</h3>
+      <style>
+        .contact-grid-co { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+        .contact-card-co {
+          border-radius:14px; padding:14px;
+          display:flex; align-items:center; gap:12px;
+          text-decoration:none;
+          opacity:0; transform:translateY(30px);
+          animation: slideUp .5s ease forwards;
+          transition: transform .2s, box-shadow .2s;
+        }
+        .contact-card-co:hover { transform:translateY(-4px) scale(1.02); box-shadow:0 10px 28px rgba(0,0,0,0.2); }
+        .contact-card-co:nth-child(1){animation-delay:.1s}
+        .contact-card-co:nth-child(2){animation-delay:.2s}
+        .contact-card-co:nth-child(3){animation-delay:.3s}
+        .contact-card-co:nth-child(4){animation-delay:.4s}
+        @keyframes slideUp { to { opacity:1; transform:translateY(0); } }
+        .contact-card-co i { font-size:26px; color:#fff; font-family:'Font Awesome 6 Brands'!important; flex-shrink:0; }
+        .contact-card-co .ct { }
+        .contact-card-co .ct-title { font-size:14px; font-weight:800; color:#fff; font-family:'Tajawal',sans-serif; }
+        .contact-card-co .ct-sub { font-size:12px; color:rgba(255,255,255,0.85); font-family:'Tajawal',sans-serif; }
+      </style>
+      <div class="contact-grid-co">
+        <a href="https://wa.me/01127765095" target="_blank" class="contact-card-co" style="background:#25d366;">
+          <i class="fa-brands fa-whatsapp"></i>
+          <div class="ct"><div class="ct-title">واتساب</div><div class="ct-sub">01127765095</div></div>
+        </a>
+        <a href="https://www.facebook.com/share/17cbwLgidQ/" target="_blank" class="contact-card-co" style="background:#1877f2;">
+          <i class="fa-brands fa-facebook-f"></i>
+          <div class="ct"><div class="ct-title">فيسبوك</div><div class="ct-sub">SKANDR</div></div>
+        </a>
+        <a href="https://www.instagram.com/skandr_2025" target="_blank" class="contact-card-co" style="background:linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);">
+          <i class="fa-brands fa-instagram"></i>
+          <div class="ct"><div class="ct-title">انستجرام</div><div class="ct-sub">skandr_2025</div></div>
+        </a>
+        <a href="https://www.tiktok.com/@skandr176" target="_blank" class="contact-card-co" style="background:#010101;">
+          <i class="fa-brands fa-tiktok"></i>
+          <div class="ct"><div class="ct-title">تيك توك</div><div class="ct-sub">skandr176</div></div>
+        </a>
+      </div>
+    </div>
 
 
 
@@ -351,6 +385,29 @@
 
 
 <script src="JS/loaderالخديوي.js"></script>
+
+<!-- Bottom Navigation -->
+<nav class="bottom-nav">
+  <div class="bottom-nav-inner">
+    <a href="index.html" class="bottom-nav-item">
+      <i class="fa-solid fa-house"></i>
+      <span>الرئيسية</span>
+    </a>
+    <a href="index.html" class="bottom-nav-item">
+      <i class="fa-solid fa-store"></i>
+      <span>المتجر</span>
+    </a>
+    <a href="#" class="bottom-nav-item">
+      <i class="fa-regular fa-heart"></i>
+      <span>المفضلة</span>
+    </a>
+    <a href="checkoutالخديوي.html" class="bottom-nav-item active">
+      <i class="fa-solid fa-cart-shopping"></i>
+      <span>سلة التسوق</span>
+      <span class="bnav-badge count_item_heater">0</span>
+    </a>
+  </div>
+</nav>
 
 </body>
 
