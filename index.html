@@ -34,10 +34,17 @@
 
     :root { --green: #004f49; --green-light: #e8f5f4; --green-mid: #006b63; }
 
-    body { background: #f0f4f3; }
+    body { background: #f0f4f3; padding-top: 0 !important; }
+    body.store-mode { padding-top: 100px !important; }
 
-    /* ===== Header ===== */
+    /* Header */
     header { background: #fff !important; box-shadow: 0 2px 16px rgba(0,79,73,0.10) !important; }
+
+    header .top_headar .container {
+      justify-content: center !important;
+      padding: 10px 0 !important;
+    }
+    header .top_headar .search_box { width: 80% !important; max-width: 650px !important; }
 
     header .top_headar .logo { width: 60px !important; }
     header .top_headar .logo img { border-radius: 10px; }
@@ -161,9 +168,68 @@
     .cart .top_cart { background: var(--green) !important; border-radius: 16px 0 0 0 !important; padding: 16px 20px !important; }
     .cart .top_cart h3 { color: #fff !important; }
     .cart .top_cart .close_cart i { color: #fff !important; font-family: "Font Awesome 6 Free" !important; }
+    .cart .bottom_cart { color: var(--green) !important; font-weight: 800 !important; padding-bottom: 80px !important; }
     .cart .bottom_cart .price_cart_total { color: var(--green) !important; font-weight: 800 !important; }
-    .cart .bottom_cart .botton_cart .btn_cart { border-radius: 8px !important; font-weight: 700 !important; }
+    .cart .bottom_cart .botton_cart { display: flex !important; gap: 10px !important; flex-wrap: wrap !important; }
+    .cart .bottom_cart .botton_cart .btn_cart { border-radius: 8px !important; font-weight: 700 !important; padding: 10px 16px !important; flex: 1 !important; text-align: center !important; justify-content: center !important; }
     .cart .items_in_cart .item_cart .delete_item i { font-family: "Font Awesome 6 Free" !important; }
+
+    /* cart items تنسيق */
+    .cart .items_in_cart .item_cart {
+      display: grid !important;
+      grid-template-columns: 72px 1fr auto !important;
+      grid-template-rows: auto auto !important;
+      gap: 4px 10px !important;
+      align-items: start !important;
+      height: auto !important;
+      min-height: 90px !important;
+      padding: 12px 0 !important;
+    }
+    .cart .items_in_cart .item_cart img {
+      width: 72px !important;
+      height: 72px !important;
+      object-fit: cover !important;
+      border-radius: 10px !important;
+      grid-row: 1 / 3 !important;
+    }
+    .cart .items_in_cart .item_cart h4 {
+      font-size: 13px !important;
+      font-weight: 700 !important;
+      color: #222 !important;
+      line-height: 1.4 !important;
+      margin: 0 !important;
+      display: -webkit-box !important;
+      -webkit-line-clamp: 2 !important;
+      -webkit-box-orient: vertical !important;
+      overflow: hidden !important;
+    }
+    .cart .items_in_cart .item_cart .delete_item {
+      grid-row: 1 !important;
+      grid-column: 3 !important;
+      align-self: start !important;
+    }
+    .cart .items_in_cart .item_cart .quantity_control {
+      grid-column: 2 / 4 !important;
+      display: flex !important;
+      align-items: center !important;
+      gap: 6px !important;
+      margin-top: 4px !important;
+    }
+    .cart .items_in_cart .item_cart .quantity_control button {
+      width: 28px !important; height: 28px !important;
+      border-radius: 6px !important;
+      border: 1.5px solid #e0eeec !important;
+      font-size: 16px !important;
+      background: #f5f7f6 !important;
+      cursor: pointer !important;
+    }
+    .cart .items_in_cart .item_cart .quantity_control span {
+      font-size: 15px !important;
+      font-weight: 700 !important;
+      color: var(--green) !important;
+      min-width: 28px !important;
+      text-align: center !important;
+    }
 
     /* ===== Banners ===== */
     .banners .banners_boxs .box { border-radius: 14px !important; overflow: hidden; transition: transform 0.22s; box-shadow: 0 4px 14px rgba(0,0,0,0.07); }
@@ -184,12 +250,250 @@
     footer .container .big_row .icon_footer a:hover { background: rgba(255,255,255,0.3) !important; top: -3px !important; }
     footer .container .big_row .icon_footer a i { color: #fff !important; font-family: "Font Awesome 6 Brands", "Font Awesome 6 Free" !important; }
 
-    /* ===== Responsive ===== */
-    @media (max-width: 768px) {
-      .slider .slied-swp .swiper-slide img { max-height: 200px; }
-      .payment-warning .warning-box { flex-direction: column; text-align: center; }
-      footer { border-radius: 14px 14px 0 0; }
+    /* ===== Hero Slider ===== */
+    .hero-slider { position: relative; overflow: hidden; min-height: 280px; }
+    .hero-slide {
+      display: none; padding: 36px 20px 40px;
+      min-height: 280px; align-items: center;
+      animation: fadeSlide .5s ease;
     }
+    .hero-slide.active { display: flex; gap: 20px; align-items: center; justify-content: space-between; }
+    @keyframes fadeSlide { from { opacity:0; transform:translateX(30px); } to { opacity:1; transform:translateX(0); } }
+
+    .hero-slide-content { flex: 1; }
+    .hero-badge-anim {
+      display: inline-block;
+      background: rgba(255,255,255,0.2);
+      color: #fff; padding: 5px 14px;
+      border-radius: 50px; font-size: 12px; font-weight: 700;
+      margin-bottom: 12px;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.05)} }
+    .hero-slide-content h1 { font-size: 30px; font-weight: 900; color: #fff !important; margin-bottom: 8px; line-height: 1.2; }
+    .hero-slide-content p { color: rgba(255,255,255,0.85) !important; font-size: 14px; line-height: 1.7; margin-bottom: 18px; }
+    .hero-cta {
+      background: #fff; color: var(--green) !important;
+      border: none; border-radius: 50px;
+      padding: 10px 22px; font-size: 14px; font-weight: 800;
+      cursor: pointer; font-family: 'Tajawal', sans-serif;
+      display: inline-flex; align-items: center; gap: 8px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+      transition: transform .2s;
+    }
+    .hero-cta:hover { transform: translateY(-2px); }
+    .hero-cta i { font-family: "Font Awesome 6 Free" !important; }
+    .hero-img-wrap { width: 120px; flex-shrink: 0; }
+    .hero-img-wrap img { width: 120px; height: 120px; object-fit: cover; border-radius: 50%; border: 4px solid rgba(255,255,255,0.3); box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
+    .hero-dots { position: absolute; bottom: 14px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; }
+    .hero-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.4); cursor: pointer; transition: all .3s; }
+    .hero-dot.active { width: 24px; border-radius: 4px; background: #fff; }
+
+    /* Stats bar */
+    .about-stats-bar {
+      display: grid; grid-template-columns: repeat(4,1fr);
+      background: #fff; padding: 16px 10px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+      text-align: center;
+    }
+    .stat-bar-item { padding: 8px 4px; border-left: 1px solid #f0f0f0; }
+    .stat-bar-item:last-child { border-left: none; }
+    .stat-bar-num { font-size: 22px; font-weight: 900; color: var(--green) !important; }
+    .stat-bar-plus { font-size: 16px; font-weight: 900; color: var(--green) !important; }
+    .stat-bar-lbl { font-size: 10px; color: #999 !important; margin-top: 3px; font-weight: 600; }
+
+    /* About section */
+    .about-section { padding: 20px 16px; max-width: 700px; margin: 0 auto; }
+    .section-label {
+      font-size: 13px; font-weight: 800; color: var(--green) !important;
+      text-transform: uppercase; letter-spacing: 1px;
+      margin: 24px 0 12px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .section-label::after { content:''; flex:1; height:2px; background:var(--green-light); border-radius:2px; }
+
+    .about-story-card {
+      background: #fff; border-radius: 16px; padding: 20px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+      border-right: 4px solid var(--green);
+      display: flex; gap: 14px; align-items: flex-start;
+      font-size: 14px; line-height: 2; color: #444 !important;
+    }
+    .about-story-card strong { color: var(--green) !important; }
+    .story-icon { font-size: 32px; flex-shrink: 0; }
+
+    /* Values */
+    .values-grid-new { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .val-card {
+      background: #fff; border-radius: 14px; padding: 16px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+      text-align: center;
+      transition: transform .22s;
+      animation: fadeUp .5s ease both;
+    }
+    .val-card:hover { transform: translateY(-4px); }
+    @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+    .val-card:nth-child(2){animation-delay:.1s} .val-card:nth-child(3){animation-delay:.2s} .val-card:nth-child(4){animation-delay:.3s}
+    .val-icon { font-size: 28px; margin-bottom: 8px; }
+    .val-card h4 { font-size: 14px; font-weight: 800; color: var(--green) !important; margin-bottom: 4px; }
+    .val-card p { font-size: 12px; color: #888 !important; }
+
+    /* Distribution scroll */
+    .dist-scroll {
+      display: flex; gap: 12px;
+      overflow-x: auto; padding-bottom: 8px;
+      scrollbar-width: none;
+    }
+    .dist-scroll::-webkit-scrollbar { display: none; }
+    .dist-card {
+      background: linear-gradient(135deg, var(--green), var(--green-mid));
+      border-radius: 14px; padding: 16px 14px;
+      min-width: 140px; flex-shrink: 0;
+      text-align: center; color: #fff;
+      box-shadow: 0 4px 14px rgba(0,79,73,0.2);
+      transition: transform .22s;
+    }
+    .dist-card:hover { transform: translateY(-3px); }
+    .dist-icon { font-size: 28px; margin-bottom: 8px; }
+    .dist-card h4 { font-size: 13px; font-weight: 800; color: #fff !important; margin-bottom: 4px; }
+    .dist-card p { font-size: 11px; color: rgba(255,255,255,0.8) !important; }
+
+    /* Contact */
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .contact-card {
+      border-radius: 14px; padding: 14px;
+      display: flex; align-items: center; gap: 12px;
+      text-decoration: none; transition: transform .22s;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+    }
+    .contact-card:hover { transform: translateY(-3px); }
+    .contact-card i { font-size: 24px; flex-shrink: 0; }
+    .contact-card h4 { font-size: 13px; font-weight: 800; margin-bottom: 2px; }
+    .contact-card p { font-size: 11px; opacity: .85; }
+    .contact-card h4, .contact-card p { color: #fff !important; }
+    .whatsapp { background: #25d366; }
+    .facebook { background: #1877f2; }
+    .instagram { background: linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888); }
+    .tiktok { background: #010101; }
+    .contact-card i { font-family: "Font Awesome 6 Brands" !important; color: #fff !important; }
+
+    /* ===== About Section ===== */
+    .about-section {
+      padding: 40px 20px 30px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .about-hero {
+      background: linear-gradient(135deg, var(--green), var(--green-mid));
+      border-radius: 20px;
+      padding: 40px 24px;
+      text-align: center;
+      color: #fff;
+      margin-bottom: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+    .about-hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: url('img/icon.JPG') center/cover;
+      opacity: 0.06;
+    }
+    .about-hero img { width: 90px; height: 90px; border-radius: 50%; border: 3px solid rgba(255,255,255,0.3); object-fit: cover; margin-bottom: 14px; position: relative; }
+    .about-hero h1 { font-size: 32px; font-weight: 900; color: #fff !important; letter-spacing: 2px; position: relative; }
+    .about-hero p { color: rgba(255,255,255,0.85) !important; font-size: 15px; margin-top: 8px; position: relative; }
+
+    .about-stats { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; margin-bottom: 20px; }
+    .about-stat { background: #fff; border-radius: 14px; padding: 16px 10px; text-align: center; box-shadow: 0 4px 14px rgba(0,0,0,0.06); }
+    .about-stat .num { font-size: 24px; font-weight: 900; color: var(--green) !important; }
+    .about-stat .lbl { font-size: 11px; color: #999 !important; margin-top: 4px; font-weight: 600; }
+
+    .about-story { background: #fff; border-radius: 16px; padding: 24px; box-shadow: 0 4px 14px rgba(0,0,0,0.06); margin-bottom: 20px; border-right: 5px solid var(--green); line-height: 2; font-size: 15px; color: #444 !important; }
+    .about-story strong { color: var(--green) !important; }
+
+    .about-values { display: grid; grid-template-columns: repeat(2,1fr); gap: 12px; margin-bottom: 20px; }
+    .about-val { background: #fff; border-radius: 14px; padding: 18px; box-shadow: 0 4px 14px rgba(0,0,0,0.06); display: flex; align-items: flex-start; gap: 12px; }
+    .about-val .icon { font-size: 28px; flex-shrink: 0; }
+    .about-val h4 { font-size: 14px; font-weight: 800; color: var(--green) !important; margin-bottom: 4px; }
+    .about-val p { font-size: 12px; color: #777 !important; line-height: 1.6; }
+
+    .about-where { display: grid; grid-template-columns: repeat(auto-fit,minmax(200px,1fr)); gap: 12px; }
+    .about-where-card { background: linear-gradient(135deg, var(--green), var(--green-mid)); border-radius: 14px; padding: 18px; color: #fff; display: flex; align-items: center; gap: 12px; }
+    .about-where-card i { font-size: 24px; opacity: 0.9; font-family: "Font Awesome 6 Free" !important; }
+    .about-where-card h4 { font-size: 14px; font-weight: 800; color: #fff !important; margin-bottom: 3px; }
+    .about-where-card p { font-size: 12px; color: rgba(255,255,255,0.85) !important; }
+
+    /* hide/show sections */
+    #store-content { display: none; visibility: hidden; position: absolute; pointer-events: none; }
+    #store-content.visible { display: block; visibility: visible; position: static; pointer-events: auto; }
+    #about-content { display: block; }
+
+    /* active nav */
+    .bottom-nav-item.active i, .bottom-nav-item.active span { color: var(--green) !important; }
+
+    /* ===== Bottom Navigation ===== */
+    .bottom-nav {
+      display: none;
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      background: #fff;
+      border-top: 1px solid #e0eeec;
+      z-index: 1200;
+      padding: 8px 0 calc(8px + env(safe-area-inset-bottom));
+      box-shadow: 0 -4px 20px rgba(0,79,73,0.10);
+    }
+    .bottom-nav-inner {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+    }
+    .bottom-nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+      text-decoration: none;
+      padding: 4px 12px;
+      border-radius: 12px;
+      transition: all 0.2s;
+      position: relative;
+      min-width: 56px;
+    }
+    .bottom-nav-item i {
+      font-size: 22px !important;
+      color: #aaa !important;
+      font-family: "Font Awesome 6 Free", "Font Awesome 6 Brands" !important;
+      transition: color 0.2s;
+    }
+    .bottom-nav-item span {
+      font-size: 11px !important;
+      color: #aaa !important;
+      font-weight: 600;
+      font-family: 'Tajawal', sans-serif !important;
+      transition: color 0.2s;
+    }
+    .bottom-nav-item.active i,
+    .bottom-nav-item.active span { color: var(--green) !important; }
+    .bottom-nav-item:hover i,
+    .bottom-nav-item:hover span { color: var(--green) !important; }
+    .bottom-nav-item .bnav-badge {
+      position: absolute;
+      top: 0; right: 8px;
+      background: var(--green);
+      color: #fff !important;
+      font-size: 10px !important;
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Tajawal', sans-serif !important;
+    }
+    @media (max-width: 768px) {
+      body { padding-bottom: 70px; }
+      footer { margin-bottom: 0; }
+    }
+    .bottom-nav { display: block; }
+    body { padding-bottom: 70px; }
     </style>
 
 
@@ -250,61 +554,17 @@
     <header>
         <div class="top_headar">
             <div class="container">
-                <a href="#" class="logo"><img src="img/icon.JPG" alt=""></a>
-
                 <form action="" class="search_box">
-
-
-                    
-
-
                     <input type="text" name="search" id="search" placeholder="search for products" required>
                     <button type="submit">
                         <i class="fa-solid fa-magnifying-glass"></i>
                     </button>
-
                 </form>
-
-                <div class="header_icons">
-                    <div class="icon">
-                       
-                    </div>
-
-                    <div onclick="open_close_cart()" class="icon">
-                        <a href="#">
-                            <i class="fa-solid fa-cart-shopping"></i>
-                            <span class="count count_item_heater">0</span>
-                        </a>
-                    </div>
-                </div>
             </div>
         </div>
 
 
-        <div class="bottom_header">
-            <div class="container">
-                <nav class="nav">
-                    <span onclick="open_Menu()" class="open_menu"><i class="fa-solid fa-bars"></i></span>
 
-
-
-                     <ul class=nav_linkc>
-                        <span onclick="open_Menu()" class="close_menu"><i class="fa-regular fa-circle-xmark"></i></span>
-
-                          <li class="active"><a href="index.html">الصفحة الرئيسية</a></li>
-                  
-                        <li><a href="#foo">موقعنا</a></li>
-                        
-                    </ul>
-
-
-                </nav>
-
-
-                </div>
-
-            </div>
-        </div>
 
 
 
@@ -320,49 +580,113 @@
 
 
 
-    <div class="slider">
-        <div class="container">
+    <div id="about-content">
 
-
-
-            <!-- swiper -->
-            <div class="slied-swp mySwiper">
-
-                <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                        <a href="#"><img src="img/WhatsApp Image 2025-11-07 at 04.42.22_575ad76b.jpg" alt=""></a>
-                    </div>
-
-                    <div class="swiper-slide">
-                        <a href="#"><img src="img/WhatsApp Image 2025-11-07 at 04.42.22_575ad76b.jpg" alt=""></a>
-                    </div>
-
-                     
-
-                     
-
-
-
-                </div>
-                <div class="swiper-pagination"></div>
-            </div>
-
-
-
-            <div class="banner_2">
-                <a href="#"><img src="img/WhatsApp Image 2025-11-07 at 04.42.12_cac159d6.jpg" alt=""></a>
-            </div>
-
+    <!-- Hero Slider -->
+    <div class="hero-slider">
+      <div class="hero-slide active" style="background:linear-gradient(135deg,#004f49,#006b63)">
+        <div class="hero-slide-content">
+          <div class="hero-badge-anim">🏆 الأفضل في مصر</div>
+          <h1>SKANDR</h1>
+          <p>أجود منتجات اللحوم الطازجة<br>من المزرعة إلى مائدتك مباشرة</p>
+          <button class="hero-cta" onclick="showSection('store')">تسوق الآن <i class="fa-solid fa-arrow-left"></i></button>
         </div>
+        <div class="hero-img-wrap"><img src="img/icon.JPG" alt="SKANDR"></div>
+      </div>
+      <div class="hero-slide" style="background:linear-gradient(135deg,#1a3a2a,#004f49)">
+        <div class="hero-slide-content">
+          <div class="hero-badge-anim">🥩 طازج يومياً</div>
+          <h1>كبدة اسكندراني</h1>
+          <p>الطعم الأصيل بأجود المكونات<br>مع التوابل والخلطة السرية</p>
+          <button class="hero-cta" onclick="showSection('store')">اطلب الآن <i class="fa-solid fa-arrow-left"></i></button>
+        </div>
+        <div class="hero-img-wrap"><img src="img/WhatsApp Image 2026-01-27 at 7.14.12 PM.jpeg" alt="كبدة"></div>
+      </div>
+      <div class="hero-slide" style="background:linear-gradient(135deg,#2d4a1e,#3d6b28)">
+        <div class="hero-slide-content">
+          <div class="hero-badge-anim">🚀 توصيل سريع</div>
+          <h1>لباب بيتك</h1>
+          <p>اطلب أونلاين والدفع كاش<br>عند الاستلام — بدون مخاطر</p>
+          <button class="hero-cta" onclick="showSection('store')">ابدأ الطلب <i class="fa-solid fa-arrow-left"></i></button>
+        </div>
+        <div class="hero-img-wrap"><img src="img/WhatsApp Image 2026-01-28 at 1.14.45 PM.jpeg" alt="توصيل"></div>
+      </div>
+      <div class="hero-dots">
+        <span class="hero-dot active" onclick="goSlide(0)"></span>
+        <span class="hero-dot" onclick="goSlide(1)"></span>
+        <span class="hero-dot" onclick="goSlide(2)"></span>
+      </div>
     </div>
 
-    <!-- رسالة تحذيرية للدفع -->
+    <!-- Stats -->
+    <div class="about-stats-bar">
+      <div class="stat-bar-item"><span class="stat-bar-num" data-target="500">0</span><span class="stat-bar-plus">+</span><div class="stat-bar-lbl">عميل سعيد</div></div>
+      <div class="stat-bar-item"><span class="stat-bar-num" data-target="1000">0</span><span class="stat-bar-plus">+</span><div class="stat-bar-lbl">طلب تم توصيله</div></div>
+      <div class="stat-bar-item"><span class="stat-bar-num" data-target="100">0</span><span class="stat-bar-plus">%</span><div class="stat-bar-lbl">طازج يومياً</div></div>
+      <div class="stat-bar-item"><span class="stat-bar-num" data-target="2024">0</span><span class="stat-bar-plus"></span><div class="stat-bar-lbl">سنة التأسيس</div></div>
+    </div>
+
+    <!-- Story -->
+    <div class="about-section">
+      <div class="section-label">من نحن</div>
+      <div class="about-story-card">
+        <div class="story-icon">🥩</div>
+        <div>
+          بدأت <strong>SKANDR</strong> رحلتها عام <strong>2024</strong> بهدف واحد — توصيل أجود منتجات اللحوم الطازجة لبيتك مباشرة.<br><br>
+          متخصصون في <strong>الكبدة الاسكندراني</strong> والمنتجات المصنوعة من أجود أنواع اللحوم، مع أعلى معايير الجودة والنظافة.<br><br>
+          الطلب <strong>أونلاين</strong> والدفع <strong>كاش عند الاستلام</strong> — بدون أي مخاطر.
+        </div>
+      </div>
+
+      <!-- Values -->
+      <div class="section-label">قيمنا</div>
+      <div class="values-grid-new">
+        <div class="val-card"><div class="val-icon">🥩</div><h4>جودة عالية</h4><p>أجود الخامات وطزاجة مضمونة</p></div>
+        <div class="val-card"><div class="val-icon">🚀</div><h4>توصيل سريع</h4><p>نوصل طلبك في أسرع وقت</p></div>
+        <div class="val-card"><div class="val-icon">💰</div><h4>أسعار منافسة</h4><p>أفضل جودة بأسعار مناسبة</p></div>
+        <div class="val-card"><div class="val-icon">🛡️</div><h4>دفع آمن</h4><p>كاش عند الاستلام فقط</p></div>
+      </div>
+
+      <!-- Distribution -->
+      <div class="section-label">نوزع عند</div>
+      <div class="dist-scroll">
+        <div class="dist-card"><div class="dist-icon">🏪</div><h4>سوبرماركت النيل</h4><p>المعادي — شارع النيل</p></div>
+        <div class="dist-card"><div class="dist-icon">🏬</div><h4>كارفور</h4><p>فروع القاهرة والجيزة</p></div>
+        <div class="dist-card"><div class="dist-icon">🛒</div><h4>هايبر وان</h4><p>مدينة نصر — التجمع</p></div>
+        <div class="dist-card"><div class="dist-icon">🏪</div><h4>سبينيس</h4><p>الزمالك — المهندسين</p></div>
+        <div class="dist-card"><div class="dist-icon">🏬</div><h4>متجر أونلاين</h4><p>توصيل لجميع المناطق</p></div>
+      </div>
+
+      <!-- Contact -->
+      <div class="section-label">تواصل معنا</div>
+      <div class="contact-grid">
+        <a href="https://wa.me/01127765095" class="contact-card whatsapp">
+          <i class="fa-brands fa-whatsapp"></i>
+          <div><h4>واتساب</h4><p>01127765095</p></div>
+        </a>
+        <a href="https://www.facebook.com/share/17cbwLgidQ/" class="contact-card facebook">
+          <i class="fa-brands fa-facebook-f"></i>
+          <div><h4>فيسبوك</h4><p>SKANDR</p></div>
+        </a>
+        <a href="https://www.instagram.com/skandr_2025" class="contact-card instagram">
+          <i class="fa-brands fa-instagram"></i>
+          <div><h4>انستجرام</h4><p>skandr_2025</p></div>
+        </a>
+        <a href="https://www.tiktok.com/@skandr176" class="contact-card tiktok">
+          <i class="fa-brands fa-tiktok"></i>
+          <div><h4>تيك توك</h4><p>skandr176</p></div>
+        </a>
+      </div>
+    </div>
+
+    </div>
+
+    <div id="store-content">
+
     <div class="payment-warning">
         <div class="container">
             <div class="warning-box">
-                <div class="warning-icon">
-                    <i class="fa-solid fa-exclamation-triangle"></i>
-                </div>
+                <div class="warning-icon"><i class="fa-solid fa-exclamation-triangle"></i></div>
                 <div class="warning-content">
                     <h3>تنبيه هام</h3>
                     <p><strong>لا تقم بإرسال أي أموال أونلاين!</strong></p>
@@ -373,64 +697,18 @@
         </div>
     </div>
 
-
-
-
-
-
-
-
-   
-
-
-
-   
-
-
-
-
-
-
-
-
-
-
-
-
     <div class="slider_products slide">
-
         <div class="container">
-
             <div class="slide_product mySwiper">
-
-
                 <div class="tpo_slide">
                     <h2><i class="fa-solid fa-tags"></i>كبدة اسكندراني</h2>
                 </div>
-
-                <div class="products swiper-wrapper" id="swiper_kabida">
-
-                </div>
+                <div class="products swiper-wrapper" id="swiper_kabida"></div>
             </div>
         </div>
     </div>
 
 
-
-
-
-
-    <div class="banners">
-        <div class="container">
-            <div class="banners_boxs banner_3_img">
-                <a href="#" class="box"><img src="img/الخديوي اعلان1.jpg" alt=""></a>
-                <a href="#" class="box"><img src="img/الخديوي اعلان1.jpg" alt=""></a>
-
-                
-
-
-            </div>
-        </div>
     </div>
 
 
@@ -456,32 +734,7 @@
 
 
 
-     <footer id="foo">
-        <div class="container">
-            <div class="big_row">
-                <img class="logo_footer" src="img/icon2.jpg" alt="">
 
-
-                <p>زورو موقعنا على</p>
-
-                <div class="icon_footer">
-                    <a href="https://wa.me/01127765095" target="_blank" rel="noopener noreferrer">
-                           <i class="fa-solid fa-phone"></i></a>
-
-                    <a href="https://www.facebook.com/share/17cbwLgidQ/?mibextid=wwXIfr"><i class="fa-brands fa-facebook-f"></i></a>
-                    <a href="https://www.instagram.com/skandr_2025?igsh=MTc4ZGQ2NW5ycXZpNQ=="><i class="fa-brands fa-instagram"></i></a>
-                    <a href="https://www.tiktok.com/@skandr176?_r=1&_t=ZS-91BnrLbwfyy"><i class="fa-brands fa-tiktok"></i></a>
-
-
-
-                </div>
-            </div>
-
-
-
-
-    
-    </footer>
 
 
 
@@ -517,6 +770,100 @@
 <script src="JS/khedive_modal_tweaks.js"></script>
 
 <script src="JS/loaderالخديوي.js"></script>
+
+<!-- Bottom Navigation -->
+<nav class="bottom-nav">
+  <div class="bottom-nav-inner">
+    <a href="#" class="bottom-nav-item active" id="bnav-home" onclick="showSection('about'); return false;">
+      <i class="fa-solid fa-house"></i>
+      <span>الرئيسية</span>
+    </a>
+    <a href="#" class="bottom-nav-item" id="bnav-store" onclick="showSection('store'); return false;">
+      <i class="fa-solid fa-store"></i>
+      <span>المتجر</span>
+    </a>
+    <a href="#" class="bottom-nav-item" id="bnav-wishlist">
+      <i class="fa-regular fa-heart"></i>
+      <span>المفضلة</span>
+    </a>
+    <a href="#" class="bottom-nav-item" onclick="open_close_cart(); return false;">
+      <i class="fa-solid fa-cart-shopping"></i>
+      <span>سلة التسوق</span>
+      <span class="bnav-badge count_item_heater">0</span>
+    </a>
+  </div>
+</nav>
+
+<script>
+var storeInitialized = false;
+
+// Hero Slider
+var currentSlide = 0;
+var slideTimer;
+function goSlide(n) {
+  var slides = document.querySelectorAll('.hero-slide');
+  var dots = document.querySelectorAll('.hero-dot');
+  if (!slides.length) return;
+  slides[currentSlide].classList.remove('active');
+  dots[currentSlide].classList.remove('active');
+  currentSlide = (n + slides.length) % slides.length;
+  slides[currentSlide].classList.add('active');
+  dots[currentSlide].classList.add('active');
+}
+function startSlider() {
+  clearInterval(slideTimer);
+  slideTimer = setInterval(function(){ goSlide(currentSlide + 1); }, 3500);
+}
+document.addEventListener('DOMContentLoaded', function(){
+  startSlider();
+  // Counter animation
+  var counters = document.querySelectorAll('.stat-bar-num');
+  counters.forEach(function(el){
+    var target = +el.getAttribute('data-target');
+    var step = Math.ceil(target / 60);
+    var cur = 0;
+    var t = setInterval(function(){
+      cur = Math.min(cur + step, target);
+      el.textContent = cur.toLocaleString();
+      if (cur >= target) clearInterval(t);
+    }, 30);
+  });
+});
+function showSection(section) {
+  const about = document.getElementById('about-content');
+  const store = document.getElementById('store-content');
+  const homeBtn = document.getElementById('bnav-home');
+  const storeBtn = document.getElementById('bnav-store');
+  const header = document.querySelector('header');
+
+  if (section === 'about') {
+    about.style.display = 'block';
+    store.classList.remove('visible');
+    homeBtn.classList.add('active');
+    storeBtn.classList.remove('active');
+    if (header) header.style.display = 'none';
+    document.body.classList.remove('store-mode');
+  } else {
+    about.style.display = 'none';
+    store.classList.add('visible');
+    storeBtn.classList.add('active');
+    homeBtn.classList.remove('active');
+    if (header) header.style.display = '';
+    document.body.classList.add('store-mode');
+    window.scrollTo(0, 0);
+    if (!storeInitialized) {
+      storeInitialized = true;
+      window.dispatchEvent(new Event('resize'));
+    }
+  }
+}
+
+// إخفاء الهيدر عند التحميل لأن الصفحة الرئيسية هي الافتراضية
+document.addEventListener('DOMContentLoaded', function(){
+  var header = document.querySelector('header');
+  if (header) header.style.display = 'none';
+});
+</script>
 
 </body>
 
