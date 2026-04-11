@@ -19,6 +19,11 @@ const STORIES = [
     title: 'SKANDR',
     thumb: 'img/icon.JPG',
     video: 'img/6dbf8460a5c2efe100c11cc650132304.mp4'
+  },
+  {
+    title: 'SKANDR',
+    thumb: 'img/icon.JPG',
+    video: 'img/6dbf8460a5c2efe100c11cc650132304.mp4'
   }
 ];
 // ============================================
