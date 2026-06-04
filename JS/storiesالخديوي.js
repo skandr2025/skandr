@@ -1,19 +1,40 @@
 // ===== إعدادات الستوريز - عدّل هنا فقط =====
+// type: 'video' → فيديو  |  type: 'image' → صورة (اختياري، الافتراضي image)
+// duration: ثواني عرض الصورة (الافتراضي 4)
 const STORIES = [
   {
     title: 'كبدة اسكندراني',
+    thumb: 'img/WhatsApp Image 2026-01-27 at 7.14.12 PM.jpeg',
+    type: 'video',
+    src: 'img/6dbf8460a5c2efe100c11cc650132304.mp4',
+    duration: 4
+  },
+  {
+    title: 'منتجاتنا',
+    thumb: 'img/WhatsApp Image 2026-01-28 at 1.14.45 PM.jpeg',
+    type: 'image',
+    src: 'img/6dbf8460a5c2efe100c11cc650132304.mp4'
+  },
+  {
+    title: 'عروض خاصة',
     thumb: 'img/WhatsApp Image 2025-11-07 at 04.42.22_575ad76b.jpg',
-    video: 'img/6dbf8460a5c2efe100c11cc650132304.mp4'
+    type: 'image',
+    src: 'img/WhatsApp Image 2025-11-07 at 04.42.22_575ad76b.jpg',
+    duration: 4
   },
   {
-    title: 'مشكل سِكندر مع الليه + طاسه سِكندر ',
-    thumb: 'img/IMG_6685.PNG',
-    video: 'img/IMG_6685.PNG'
+    title: 'SKANDR',
+    thumb: 'img/icon.JPG',
+    type: 'image',
+    src: 'img/icon.JPG',
+    duration: 4
   },
   {
-    title: 'طاسه سِكندر',
-    thumb: 'img/IMG_6427.PNG',
-    video: 'img/IMG_6427.PNG'
+    title: 'ااا',
+    thumb: 'img/IMG_0221.JPG',
+    type: 'image',
+    src: 'img/IMG_0221.JPG',
+    duration: 4
   }
 ];
 // ============================================
@@ -237,6 +258,7 @@ const STORIES = [
     <div class="story-video-wrap">
       <div class="story-tap-prev" id="story-tap-prev"></div>
       <video id="story-video" playsinline autoplay></video>
+      <img id="story-image" style="display:none;max-width:100%;max-height:100vh;width:100%;object-fit:contain;" alt="">
       <div class="story-tap-next" id="story-tap-next"></div>
     </div>
     <div class="story-scroll-hint">↓ اسحب للأسفل للمنتجات</div>`;
@@ -270,8 +292,11 @@ const STORIES = [
   function closeViewer() {
     viewer.classList.remove('open');
     document.body.style.overflow = '';
-    video.pause();
-    video.src = '';
+    const videoEl = document.getElementById('story-video');
+    const imageEl = document.getElementById('story-image');
+    videoEl.pause();
+    videoEl.src = '';
+    if (imageEl) { imageEl.src = ''; imageEl.style.display = 'none'; }
     clearInterval(progInterval);
   }
 
@@ -282,6 +307,10 @@ const STORIES = [
     progVal = 0;
 
     const s = STORIES[idx];
+    const isVideo = s.type === 'video' || (!s.type && s.video); // دعم الصيغة القديمة
+    const src     = s.src || s.video || s.image || '';
+    const duration = s.duration || 4; // ثواني عرض الصورة
+
     document.getElementById('story-hdr-title').textContent = s.title;
     document.getElementById('story-hdr-img').src = s.thumb;
 
@@ -297,24 +326,54 @@ const STORIES = [
       fill.style.width = i < idx ? '100%' : '0%';
     });
 
-    video.src = s.video;
-    video.load();
-    video.play().catch(() => {});
-
-    // progress
     const fill = document.getElementById('prog-fill-' + idx);
-    progInterval = setInterval(() => {
-      if (video.duration) {
-        progVal = (video.currentTime / video.duration) * 100;
-        if (fill) fill.style.width = progVal + '%';
-      }
-    }, 100);
+    const videoEl = document.getElementById('story-video');
+    const imageEl = document.getElementById('story-image');
 
-    video.onended = () => {
-      clearInterval(progInterval);
-      if (fill) fill.style.width = '100%';
-      setTimeout(() => loadStory(idx + 1), 300);
-    };
+    if (isVideo) {
+      // إظهار الفيديو وإخفاء الصورة
+      videoEl.style.display = 'block';
+      imageEl.style.display = 'none';
+
+      videoEl.src = src;
+      videoEl.load();
+      videoEl.play().catch(() => {});
+
+      progInterval = setInterval(() => {
+        if (videoEl.duration) {
+          progVal = (videoEl.currentTime / videoEl.duration) * 100;
+          if (fill) fill.style.width = progVal + '%';
+        }
+      }, 100);
+
+      videoEl.onended = () => {
+        clearInterval(progInterval);
+        if (fill) fill.style.width = '100%';
+        setTimeout(() => loadStory(idx + 1), 300);
+      };
+    } else {
+      // إظهار الصورة وإخفاء الفيديو
+      videoEl.style.display = 'none';
+      videoEl.pause();
+      videoEl.src = '';
+      imageEl.style.display = 'block';
+      imageEl.src = src;
+
+      // progress bar للصورة بناءً على duration
+      const totalMs = duration * 1000;
+      const stepMs  = 50;
+      let elapsed   = 0;
+
+      progInterval = setInterval(() => {
+        elapsed += stepMs;
+        progVal  = (elapsed / totalMs) * 100;
+        if (fill) fill.style.width = Math.min(progVal, 100) + '%';
+        if (elapsed >= totalMs) {
+          clearInterval(progInterval);
+          setTimeout(() => loadStory(idx + 1), 200);
+        }
+      }, stepMs);
+    }
   }
 
   document.getElementById('story-close-btn').addEventListener('click', closeViewer);
@@ -328,11 +387,11 @@ const STORIES = [
     if (e.changedTouches[0].clientY - touchStartY > 80) closeViewer();
   });
 
-  // inject after slider - في الرئيسية تحت السلايدر
+  // inject after slider - في الرئيسية بعد stats bar وقبل منتجات الحجز
   document.addEventListener('DOMContentLoaded', () => {
     const aboutContent = document.getElementById('about-content');
     if (aboutContent) {
-      // أضف بعد stats bar
+      // أضف بعد stats bar مباشرة
       const statsBar = aboutContent.querySelector('.about-stats-bar');
       if (statsBar) {
         statsBar.after(buildStories());
