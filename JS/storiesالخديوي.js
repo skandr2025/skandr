@@ -4,9 +4,9 @@
 const STORIES = [
   {
     title: 'كبدة اسكندراني',
-    thumb: 'img/WhatsApp Image 2026-01-27 at 7.14.12 PM.jpeg',
+    thumb: 'img/icon.JPG',
     type: 'video',
-    src: 'img/6dbf8460a5c2efe100c11cc650132304.mp4',
+    src: 'img/icon.JPG',
     duration: 4
   },
   {
