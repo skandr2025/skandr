@@ -6,7 +6,7 @@ const STORIES = [
     video: 'img/6dbf8460a5c2efe100c11cc650132304.mp4'
   },
   {
-    title: 'مشكل سِكندر مع الليه  + طاسه سِكندر ',
+    title: 'مشكل سِكندر مع الليه + طاسه سِكندر ',
     thumb: 'img/IMG_6685.PNG',
     video: 'img/IMG_6685.PNG'
   },
