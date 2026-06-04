@@ -431,6 +431,155 @@
     /* active nav */
     .bottom-nav-item.active i, .bottom-nav-item.active span { color: var(--green) !important; }
 
+    /* ===== Reservation Products Cards ===== */
+    /* Gallery */
+    .res-prod-gallery {
+      position: relative;
+      width: 100%;
+      background: #f5f7f6;
+      border-radius: 16px 16px 0 0;
+      overflow: hidden;
+      user-select: none;
+    }
+    .rg-slide { display: none; opacity: 0; }
+    .rg-slide.rg-active { display: block; animation: rgFade 0.4s ease forwards; }
+    @keyframes rgFade { from { opacity: 0; } to { opacity: 1; } }
+    .rg-slide img {
+      width: 100%;
+      height: auto;
+      max-height: 300px;
+      object-fit: contain;
+      display: block;
+      background: #f5f7f6;
+    }
+    .rg-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0,79,73,0.7);
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      width: 32px; height: 32px;
+      font-size: 20px;
+      line-height: 1;
+      cursor: pointer;
+      z-index: 2;
+      display: flex; align-items: center; justify-content: center;
+      transition: background .2s;
+    }
+    .rg-arrow:hover { background: #004f49; }
+    .rg-prev { right: 10px; }
+    .rg-next { left: 10px; }
+    .rg-dots {
+      position: absolute;
+      bottom: 8px; left: 50%;
+      transform: translateX(-50%);
+      display: flex; gap: 6px;
+    }
+    .rg-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.5);
+      cursor: pointer;
+      transition: all .2s;
+    }
+    .rg-dot.rg-dot-active {
+      background: #fff;
+      width: 18px;
+      border-radius: 4px;
+    }
+    .reservation-product-card {
+      background: #fff;
+      border: 1px solid #e0eeec;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.07);
+      transition: transform 0.22s, box-shadow 0.22s;
+      display: flex;
+      flex-direction: column;
+    }
+    .reservation-product-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 32px rgba(0,79,73,0.14);
+    }
+    .res-prod-img {
+      width: 100%;
+      height: auto;
+      min-height: 200px;
+      max-height: 280px;
+      overflow: hidden;
+      background: #f5f7f6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .res-prod-img img {
+      width: 100%;
+      height: auto;
+      max-height: 280px;
+      object-fit: contain;
+      object-position: center;
+      display: block;
+      transition: scale 0.3s;
+      background: #f5f7f6;
+    }
+    .reservation-product-card:hover .res-prod-img img {
+      scale: 1.05;
+    }
+    .res-prod-content {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      flex: 1;
+    }
+    .res-prod-content h4 {
+      font-size: 15px;
+      font-weight: 800;
+      color: #222;
+      margin: 0;
+      line-height: 1.4;
+    }
+    .res-prod-price {
+      font-size: 18px;
+      font-weight: 900;
+      color: var(--green);
+      margin: 0;
+    }
+    .res-prod-desc {
+      font-size: 13px;
+      color: #666;
+      line-height: 1.6;
+      margin: 0;
+      flex: 1;
+    }
+    .btn_reserve_home {
+      background: linear-gradient(135deg, #004f49, #006b63);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 12px 18px;
+      font-size: 14px;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-family: 'Tajawal', sans-serif;
+      transition: all 0.2s;
+      margin-top: auto;
+    }
+    .btn_reserve_home:hover {
+      background: var(--green-mid);
+      transform: translateY(-1px);
+    }
+    .btn_reserve_home i {
+      font-family: "Font Awesome 6 Free" !important;
+      color: #fff;
+    }
+
     /* ===== Bottom Navigation ===== */
     .bottom-nav {
       display: none;
@@ -626,6 +775,18 @@
       <div class="stat-bar-item"><span class="stat-bar-num" data-target="2025">0</span><span class="stat-bar-plus"></span><div class="stat-bar-lbl">سنة التأسيس</div></div>
     </div>
 
+    <!-- Stories will be injected here by JS -->
+
+    <!-- قسم منتجات الحجز -->
+    <div class="reservation-products-section" style="padding:24px 16px 10px;max-width:900px;margin:0 auto;">
+      <div class="section-label" style="font-size:15px;font-weight:800;color:#004f49;text-transform:uppercase;letter-spacing:1px;margin:0 0 16px;display:flex;align-items:center;gap:8px;">
+        <i class="fa-solid fa-bookmark" style="color:#004f49;"></i>
+        احجز الآن
+        <span style="content:'';flex:1;height:2px;background:#e8f5f4;border-radius:2px;"></span>
+      </div>
+      <div id="reservation-products-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;"></div>
+    </div>
+
     <!-- Story -->
     <div class="about-section">
       <div class="section-label">من نحن</div>
@@ -750,6 +911,8 @@
 
     <!-- file js -->
     <script src="JS/searchالخديوي.js"></script>
+    <script src="JS/reservationsالخديوي.js"></script>
+    <script src="JS/reservations_homeالخديوي.js"></script>
 
     <script src="JS/swiperالخديوي.js"></script>
     <script src="JS/items_homeالخديوي.js"></script>
