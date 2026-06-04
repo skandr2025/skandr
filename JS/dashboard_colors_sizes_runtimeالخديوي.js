@@ -4,7 +4,7 @@
    - متوافق مع “لزّاقة” الأكواد الموجودة مسبقًا في dashboardالخديوي.js
 */
 (function(){
-  var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyfyDuJQeTVaS1pEJQOl1RA6Yy6CvPodSoVWtP8B0nNnI6h00MMKZpVSmx8yRqrSg9r/exec';
+  var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbybbx621W9PQAYmgXgoTTQyTij0aa8rmeUfxq-n0tI5OwWUY5V8tWZI_9p9joeFoAlU/exec';
   var ordersMap = {}; // row -> products[]
 
   async function loadOrdersOnce(){
