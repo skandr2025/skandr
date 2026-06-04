@@ -249,6 +249,9 @@
     <div class="main-tabs">
       <button class="main-tab-btn active" data-tab="orders-tab">الطلبات</button>
       <button class="main-tab-btn" data-tab="reports-tab">التقارير</button>
+      <button class="main-tab-btn" data-tab="reservations-tab" id="reservations-tab-btn">
+        الحجوزات <span class="badge" id="reservations-count-badge" style="background:#004f49;">0</span>
+      </button>
     </div>
 
     <!-- تبويب الطلبات -->
@@ -302,6 +305,11 @@
             </button>
 
             <button class="filter-btn" data-status="مؤرشف">مؤرشف</button>
+
+            <button class="filter-btn" id="reservations-filter-btn" data-status="reservations" style="background:#004f49;color:#fff;">
+                <i class="fa-solid fa-bookmark"></i> الحجوزات
+                <span class="badge" id="reservations-filter-count" style="background:#c9a84c;">0</span>
+            </button>
         </div>
         
         <div class="reports-section">
@@ -407,6 +415,18 @@
       </div>
     </div><!-- end reports-tab -->
 
+    <!-- تبويب الحجوزات -->
+    <div class="main-tab-content" id="reservations-tab">
+      <div style="margin-bottom:16px;display:flex;align-items:center;gap:12px;">
+        <h3 style="margin:0;font-size:17px;color:#222;">قائمة الحجوزات</h3>
+        <button onclick="renderReservationsDashboard()" style="padding:7px 14px;background:#004f49;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:13px;font-family:Tajawal,sans-serif;">🔄 تحديث</button>
+        <button onclick="if(confirm('هل تريد حذف جميع الحجوزات؟')){localStorage.removeItem('skandr_reservations');renderReservationsDashboard();}" style="padding:7px 14px;background:#ef4444;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:13px;font-family:Tajawal,sans-serif;">🗑️ حذف الكل</button>
+      </div>
+      <div class="order-list" id="reservations-list">
+        <p style="text-align:center;color:#999;padding:30px;">اضغط على "الحجوزات" لعرض البيانات</p>
+      </div>
+    </div><!-- end reservations-tab -->
+
     <!-- modal تفاصيل العميل -->
     <div class="customer-modal-overlay" id="customer-modal-overlay">
       <div class="customer-modal">
@@ -427,6 +447,45 @@
     <script src="JS/loginالخديوي.js"></script>
     <script src="JS/dashboardالخديوي.js"></script>
     <script src="JS/reportsالخديوي.js"></script>
+    <script src="JS/reservationsالخديوي.js"></script>
+    <script>
+      // تفعيل تبويب الحجوزات - يشتغل بعد تحميل كل Scripts
+      window.addEventListener('load', function() {
+        // تحديث عداد الحجوزات
+        function updateResvBadge() {
+          const count = (JSON.parse(localStorage.getItem('skandr_reservations')) || []).length;
+          const tabBadge = document.getElementById('reservations-count-badge');
+          const filterBadge = document.getElementById('reservations-filter-count');
+          if (tabBadge) tabBadge.textContent = count;
+          if (filterBadge) filterBadge.textContent = count;
+        }
+        updateResvBadge();
+
+        // تشغيل renderReservationsDashboard لما يضغط على التبويب
+        const resvTabBtn = document.getElementById('reservations-tab-btn');
+        if (resvTabBtn) {
+          resvTabBtn.addEventListener('click', function() {
+            if (typeof renderReservationsDashboard === 'function') {
+              renderReservationsDashboard();
+            }
+            updateResvBadge();
+          });
+        }
+
+        // تشغيل showReservationsInOrderList لما يضغط على زر الفلتر
+        const resvFilterBtn = document.getElementById('reservations-filter-btn');
+        if (resvFilterBtn) {
+          resvFilterBtn.addEventListener('click', function() {
+            if (typeof showReservationsInOrderList === 'function') {
+              showReservationsInOrderList();
+            }
+          });
+        }
+
+        // تحديث العدادات كل 5 ثواني
+        setInterval(updateResvBadge, 5000);
+      });
+    </script>
 
     
    <script src="JS/product_modalالخديوي.js"></script>
