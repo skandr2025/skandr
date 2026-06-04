@@ -6,34 +6,20 @@ const STORIES = [
     title: 'كبدة اسكندراني',
     thumb: 'img/icon.JPG',
     type: 'video',
-    src: 'img/icon.JPG',
+    src: 'img/6dbf8460a5c2efe100c11cc650132304.mp4',
     duration: 4
   },
   {
-    title: 'منتجاتنا',
-    thumb: 'img/WhatsApp Image 2026-01-28 at 1.14.45 PM.jpeg',
+    title: 'مشكل سِكندر مع الليه والتوابل + طاسه سِكندر',
+    thumb: 'img/IMG_6685.PNG',
     type: 'image',
-    src: 'img/6dbf8460a5c2efe100c11cc650132304.mp4'
+    src: 'img/IMG_6685.PNG'
   },
   {
-    title: 'عروض خاصة',
-    thumb: 'img/WhatsApp Image 2025-11-07 at 04.42.22_575ad76b.jpg',
+    title: 'طاسه سِكندر',
+    thumb: 'img/IMG_6427.PNG',
     type: 'image',
-    src: 'img/WhatsApp Image 2025-11-07 at 04.42.22_575ad76b.jpg',
-    duration: 4
-  },
-  {
-    title: 'SKANDR',
-    thumb: 'img/icon.JPG',
-    type: 'image',
-    src: 'img/icon.JPG',
-    duration: 4
-  },
-  {
-    title: 'ااا',
-    thumb: 'img/IMG_0221.JPG',
-    type: 'image',
-    src: 'img/IMG_0221.JPG',
+    src: 'img/IMG_6427.PNG',
     duration: 4
   }
 ];
